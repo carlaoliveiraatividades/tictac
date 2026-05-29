@@ -28,8 +28,9 @@
             </div>
         </div>
         
-        <nav class="flex bg-slate-100 p-1 rounded-2xl gap-1 shrink-0 border border-slate-250">
+        <nav class="flex bg-slate-100 p-1 rounded-2xl gap-1 shrink-0 border border-slate-250 flex-wrap justify-center">
             <button onclick="switchTab('dashboard')" id="nav-dashboard" class="px-3 py-1.5 rounded-xl text-xs font-black transition-all bg-indigo-600 text-white shadow">Painel 📊</button>
+            <button onclick="switchTab('manual')" id="nav-manual" class="px-3 py-1.5 rounded-xl text-xs font-black transition-all text-slate-500 hover:text-slate-850">Manual 📖</button>
             <button onclick="switchTab('seguranca')" id="nav-seguranca" class="px-3 py-1.5 rounded-xl text-xs font-black transition-all text-slate-500 hover:text-slate-850">Segurança 🛡️</button>
             <button onclick="switchTab('pesquisa')" id="nav-pesquisa" class="px-3 py-1.5 rounded-xl text-xs font-black transition-all text-slate-500 hover:text-slate-850">Pesquisa 🔍</button>
             <button onclick="switchTab('criar')" id="nav-criar" class="px-3 py-1.5 rounded-xl text-xs font-black transition-all text-slate-500 hover:text-slate-850">Criar 🤖</button>
@@ -125,6 +126,381 @@
             </div>
         </section>
 
+        <!-- ==================== TAB: MANUAL ==================== -->
+        <section id="tab-manual" class="hidden space-y-6 text-left">
+            <div class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-3xl p-6 text-white shadow-md border-b-6 border-indigo-700 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-4 text-left w-full md:w-auto font-display">
+                    <div class="w-16 h-16 rounded-full bg-white/20 border-4 border-white/50 flex items-center justify-center text-3xl shrink-0">
+                        📖
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-black">Manual de Estudo & Planificação</h2>
+                        <p class="text-xs text-indigo-155 font-semibold leading-tight">O teu centro de literacia digital, plano curricular de TIC e tarefas práticas do 3.º Ciclo (7.º/8.º/9.º anos).</p>
+                        <p class="text-xs text-amber-300 font-extrabold mt-1">Navega pelos módulos de estudo e desafia os Cartões para ganhares +50 XP!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MANUAL CONTAINER -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <!-- Sidebar Nav of Manual -->
+                <div class="col-span-1 lg:col-span-1 flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 shrink-0">
+                    <button onclick="switchManualSubTab('planificacao')" id="mansub-planificacao" class="min-w-[150px] lg:w-full text-left p-3 rounded-2xl border-2 border-indigo-500 border-b-4 bg-indigo-50 text-indigo-850 font-black text-xs flex items-center gap-2 shadow-sm shrink-0">
+                        <span>📅</span> Planificação & Projetos
+                    </button>
+                    <button onclick="switchManualSubTab('seguranca')" id="mansub-seguranca" class="min-w-[150px] lg:w-full text-left p-3 rounded-2xl border-2 border-slate-100 border-b-4 bg-white hover:bg-slate-50 font-semibold text-xs text-slate-500 flex items-center gap-2 shrink-0">
+                        <span>🛡️</span> Cidadania e Segurança
+                    </button>
+                    <button onclick="switchManualSubTab('pesquisa')" id="mansub-pesquisa" class="min-w-[150px] lg:w-full text-left p-3 rounded-2xl border-2 border-slate-100 border-b-4 bg-white hover:bg-slate-50 font-semibold text-xs text-slate-500 flex items-center gap-2 shrink-0">
+                        <span>🔍</span> Pesquisa e Literacia
+                    </button>
+                    <button onclick="switchManualSubTab('criacao')" id="mansub-criacao" class="min-w-[150px] lg:w-full text-left p-3 rounded-2xl border-2 border-slate-100 border-b-4 bg-white hover:bg-slate-50 font-semibold text-xs text-slate-500 flex items-center gap-2 shrink-0">
+                        <span>📊</span> Criação e Programação
+                    </button>
+                    <button onclick="switchManualSubTab('flashcards')" id="mansub-flashcards" class="min-w-[160px] lg:w-full text-left p-3 rounded-2xl border-2 border-amber-350 border-b-4 bg-amber-50 hover:bg-amber-100 font-extrabold text-xs text-amber-800 flex items-center justify-between gap-1 shrink-0">
+                        <span class="flex items-center gap-2"><span>🎴</span> Cartões de Estudo</span>
+                        <span class="text-[9px] bg-amber-200 text-amber-900 px-1.5 py-0.5 rounded-full font-black animate-pulse">+50 XP</span>
+                    </button>
+                </div>
+
+                <!-- Display Box of Manual Content -->
+                <div class="col-span-1 lg:col-span-3 bg-white rounded-3xl border-2 border-b-6 border-slate-100 p-6 shadow-sm min-h-[450px]">
+                    
+                    <!-- SUBPANE: Planificação -->
+                    <div id="manpane-planificacao" class="space-y-6">
+                        <div class="border-b pb-3 border-slate-100">
+                            <span class="text-[10px] bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-full font-black uppercase tracking-wider">Programa DGE Português</span>
+                            <h3 class="text-lg font-black text-slate-800 mt-2 flex items-center gap-2">📅 Planificação Curricular TIC – 3.º Ciclo</h3>
+                            <p class="text-xs text-slate-400 mt-1">Este curso alinha as competências digitais obrigatórias com as Aprendizagens Essenciais DGE para o 7.º, 8.º e 9.º anos.</p>
+                        </div>
+
+                        <!-- Critérios de Avaliação -->
+                        <div class="bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100 space-y-3">
+                            <h4 class="text-sm font-black text-indigo-950 flex items-center gap-1.5">📊 Regras de Avaliação e Ponderações da Disciplina</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 text-center">
+                                    <span class="text-2xl font-black text-indigo-600 block">40%</span>
+                                    <span class="text-xs font-bold text-slate-700 block mt-1">Trabalhos Práticos e Projetos</span>
+                                    <span class="text-[10px] text-slate-400 block mt-1 leading-tight">Projetos desenvolvidos em equipa no laboratório escolar.</span>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 text-center">
+                                    <span class="text-2xl font-black text-purple-600 block">40%</span>
+                                    <span class="text-xs font-bold text-slate-700 block mt-1">Fichas Lógicas & Testes</span>
+                                    <span class="text-[10px] text-slate-400 block mt-1 leading-tight">Avaliações de conceitos de cibersegurança e programação.</span>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 text-center">
+                                    <span class="text-2xl font-black text-pink-600 block">20%</span>
+                                    <span class="text-xs font-bold text-slate-700 block mt-1">Cidadania & Atitudes</span>
+                                    <span class="text-[10px] text-slate-400 block mt-1 leading-tight">Comportamento online seguro, respeito pelas licenças e netiqueta.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Calendar Grid -->
+                        <div class="space-y-4 text-left">
+                            <h4 class="text-sm font-black text-slate-800 flex items-center gap-1.5">🗓️ Calendário e Enunciados dos Trabalhos Obrigatórios</h4>
+                            
+                            <div class="space-y-3">
+                                <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                                    <div class="space-y-1">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-[10px] bg-indigo-150 text-indigo-750 px-2 py-0.5 rounded-full font-black">1.º PERÍODO (7.º ANO)</span>
+                                            <span class="text-xs font-black text-slate-800">Trabalho Curricular 1: Cartaz "A Minha Pegada Digital"</span>
+                                        </div>
+                                        <p class="text-[11px] text-slate-500 leading-relaxed font-semibold">Os alunos organizam-se em equipas para produzir uma infografia informativa e alertar a comunidade escolar sobre privacidade nas redes sociais, submetendo o trabalho sob uma licença Creative Commons CC BY-NC adaptada.</p>
+                                    </div>
+                                    <span class="text-[11px] px-3 py-1 font-black rounded-lg bg-yellow-100 text-yellow-750 shrink-0 select-none">Entregar em Novembro</span>
+                                </div>
+
+                                <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                                    <div class="space-y-1">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-[10px] bg-purple-150 text-purple-750 px-2 py-0.5 rounded-full font-black">2.º PERÍODO (8.º ANO)</span>
+                                            <span class="text-xs font-black text-slate-800">Trabalho Curricular 2: Motor de Busca Lógico & Fact-Cheking</span>
+                                        </div>
+                                        <p class="text-[11px] text-slate-500 leading-relaxed font-semibold">Consiste em conceber uma pesquisa avançada unindo operadores booleanos (AND, OR, NOT) para identificar artigos académicos reputados e de seguida desmistificar uma notícia falsa através duma grelha analítica escolar de fidedignidade.</p>
+                                    </div>
+                                    <span class="text-[11px] px-3 py-1 font-black rounded-lg bg-purple-100 text-purple-750 shrink-0 select-none">Entregar em Fevereiro</span>
+                                </div>
+
+                                <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                                    <div class="space-y-1">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-[10px] bg-pink-150 text-pink-750 px-2 py-0.5 rounded-full font-black">3.º PERÍODO (9.º ANO)</span>
+                                            <span class="text-xs font-black text-slate-800">Trabalho Curricular 3: Orçamento de Projeto IoT e Algoritmo de Robô</span>
+                                        </div>
+                                        <p class="text-[11px] text-slate-500 leading-relaxed font-semibold">O grande desafio final engloba a formulação duma tabela de custos automatizada do kit microcontrolador (recorrendo a `=SOMA`, `=MÉDIA` e `=SE(condição)` lógicos, protegendo taxas com referências absolutas $) e desenho do algoritmo de disparo do sensor.</p>
+                                    </div>
+                                    <span class="text-[11px] px-3 py-1 font-black rounded-lg bg-pink-100 text-pink-750 shrink-0 select-none">Entregar em Maio</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- SUBPANE: Seguranca -->
+                    <div id="manpane-seguranca" class="hidden space-y-6">
+                        <div class="border-b pb-3 border-slate-100">
+                            <span class="text-[10px] bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-full font-black uppercase tracking-wider">Unidade: SRR (Segurança)</span>
+                            <h3 class="text-lg font-black text-slate-800 mt-2 flex items-center gap-2">🛡️ Lição 1: Segurança, Responsabilidade e Respeito</h3>
+                            <p class="text-xs text-slate-400 mt-1">Aprende a proteger a tua identidade virtual e a respeitar a autoria na internet.</p>
+                        </div>
+
+                        <!-- Pegada e RGPD -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 bg-emerald-50/50 border border-emerald-250 rounded-2xl space-y-2">
+                                <h4 class="text-xs font-black text-emerald-800 flex items-center gap-1">👣 A Minha Pegada Digital (Digital Footprint)</h4>
+                                <p class="text-[11px] text-slate-600 leading-relaxed font-semibold">
+                                    Sempre que acedes à internet ou usas redes sociais deixas um rasto perpétuo: fotos partilhadas, comentários, pesquisas e histórico. Este conjunto cria a tua identidade digital. Pensa duas vezes antes de publicar ou ceder dados online, pois o que cai na rede pode ser usado por terceiros para sempre!
+                                </p>
+                            </div>
+
+                            <div class="p-4 bg-indigo-50/50 border border-indigo-250 rounded-2xl space-y-2">
+                                <h4 class="text-xs font-black text-indigo-800 flex items-center gap-1">🇪🇺 O Regulamento RGPD e a Tua Privacidade</h4>
+                                <p class="text-[11px] text-slate-600 leading-relaxed font-semibold">
+                                    O <strong>RGPD (Regulamento Geral sobre a Proteção de Dados)</strong> protege os cidadãos europeus. Nenhum site ou aplicação pode armazenar dados teus (nome, email, rosto, geolocalização) sem consentimento explícito, protegendo os teus direitos perante o assédio comercial das marcas.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Ciberdefesas em Tabela -->
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-left space-y-3">
+                            <h4 class="text-xs font-black text-slate-800 flex items-center gap-1">🛡️ As 3 Linhas de Ciberdefesa Inteligente</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-slate-100">
+                                    <span class="text-xl">🔑</span>
+                                    <div>
+                                        <h5 class="text-xs font-black text-slate-800 leading-none">Passwords Fortes & 2FA</h5>
+                                        <p class="text-[10px] text-slate-500 mt-1 leading-normal font-semibold">Evita senhas curtas ou óbvias. Desenha chaves com mais de 12 carateres contendo números, símbolos e letras maiúsculas. Ativa sempre a autenticação de dois fatores (2FA) para impedir acessos impostores.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-slate-100">
+                                    <span class="text-xl">🔒</span>
+                                    <div>
+                                        <h5 class="text-xs font-black text-slate-800 leading-none">Protocolo HTTPS e Cifragem SSL/TLS</h5>
+                                        <p class="text-[10px] text-slate-500 mt-1 leading-normal font-semibold">O cadeado na barra do browser indica navegação encriptada! Ele garante que ninguém entre o teu computador e o servidor do site consegue espiar as passwords ou conversas confidenciais enviadas.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-slate-100">
+                                    <span class="text-xl">📡</span>
+                                    <div>
+                                        <h5 class="text-xs font-black text-slate-800 leading-none">Vulnerabilidades de Wi-Fi Público Não Encriptado</h5>
+                                        <p class="text-[10px] text-slate-500 mt-1 leading-normal font-semibold">Redes públicas ou grátis são alvos fáceis de criminosos que clonam sinais rádio para capturar o teu tráfego. Utiliza sempre ligações cifradas cifradas por provedores (ex: redes escolares controladas com WPA3).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Direito Autor -->
+                        <div class="bg-amber-50/55 border border-amber-200 rounded-2xl p-4 space-y-3">
+                            <h4 class="text-xs font-black text-amber-900 flex items-center gap-1.5">🎨 Propriedade Intelectual e as Licenças de Utilização Ética</h4>
+                            <p class="text-[11px] text-slate-650 leading-relaxed font-semibold">Toda a produção intelectual — como fotos, músicas ou códigos de colegas — tem regras estritas de uso. Eis as 3 modalidades fundamentais do manual de TIC:</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                                <div class="bg-white p-3.5 rounded-xl border border-amber-100 flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex items-center justify-between">
+                                            <h5 class="font-black text-slate-800">Direito de Autor (©)</h5>
+                                            <span class="text-[9px] uppercase font-black bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded-full">Total</span>
+                                        </div>
+                                        <p class="text-[10px] text-slate-400 mt-2 font-semibold leading-relaxed">Todos os Direitos Reservados. É absolutamente proibido reproduzir, publicar, adaptar ou comercializar a obra sem aval por escrito e contrato estabelecido pelo autor original.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-3.5 rounded-xl border border-amber-100 flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex items-center justify-between">
+                                            <h5 class="font-black text-slate-800">Creative Commons (CC)</h5>
+                                            <span class="text-[9px] uppercase font-black bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded-full">Partilhável</span>
+                                        </div>
+                                        <p class="text-[10px] text-slate-405 mt-2 font-semibold leading-relaxed">Permissões de uso flexível e gratuito regulado por módulos: BY (citar autor), NC (não comercial), ND (sem alterações), SA (partilhar de forma idêntica à original).</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-3.5 rounded-xl border border-amber-100 flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex items-center justify-between">
+                                            <h5 class="font-black text-slate-800">Domínio Público (PD)</h5>
+                                            <span class="text-[9px] uppercase font-black bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-full">Livre</span>
+                                        </div>
+                                        <p class="text-[10px] text-slate-400 mt-2 font-semibold leading-relaxed">A obra expirou os seus prazos legais de autoria e passou a pertencer universalmente a todos os cidadãos. Podes usar, editar e republicar sem quaisquer limitações.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- SUBPANE: Pesquisa -->
+                    <div id="manpane-pesquisa" class="hidden space-y-6">
+                        <div class="border-b pb-3 border-slate-100">
+                            <span class="text-[10px] bg-purple-100 text-purple-700 px-2.5 py-1 rounded-full font-black uppercase tracking-wider">Unidade: PI (Pesquisa)</span>
+                            <h3 class="text-lg font-black text-slate-800 mt-2 flex items-center gap-2">🔍 Lição 2: Investigador Lógico e Combate a Boatos</h3>
+                            <p class="text-xs text-slate-400 mt-1">Refina as tuas pesquisas na web com lógica e aprende a desmascarar fake news.</p>
+                        </div>
+
+                        <!-- Infologia de Operadores -->
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-left space-y-3">
+                            <h4 class="text-xs font-black text-slate-800 flex items-center gap-1">🔍 Operadores Booleanos: Filtra Resultados como um Cientista</h4>
+                            <p class="text-[11px] text-slate-500 font-semibold leading-normal">Os motores de busca indexam milhões de links. Em vez de ler dezenas de páginas inúteis, usa operadores lógicos booleanos para obteres relatórios rigorosos:</p>
+                            
+                            <div class="space-y-2">
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-2 bg-white p-2.5 rounded-xl border border-slate-150 text-xs text-slate-600 font-semibold items-center">
+                                    <div class="font-mono text-indigo-700 font-black">Aspas ""</div>
+                                    <div class="col-span-2 text-[11px] text-slate-500 leading-tight">Procura a expressão textual ou teórica na ordem exta que escreveste.</div>
+                                    <div class="text-[10px] bg-slate-100 p-1 rounded font-mono text-right">"Direito de autor"</div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-2 bg-white p-2.5 rounded-xl border border-slate-150 text-xs text-slate-600 font-semibold items-center">
+                                    <div class="font-mono text-indigo-700 font-black">AND</div>
+                                    <div class="col-span-2 text-[11px] text-slate-500 leading-tight">Obriga o motor de busca a retornar resultados que contenham obrigatoriamente ambos os termos.</div>
+                                    <div class="text-[10px] bg-slate-100 p-1 rounded font-mono text-right">privacidade AND RGPD</div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-2 bg-white p-2.5 rounded-xl border border-slate-150 text-xs text-slate-600 font-semibold items-center">
+                                    <div class="font-mono text-indigo-700 font-black">OR</div>
+                                    <div class="col-span-2 text-[11px] text-slate-500 leading-tight">Procura páginas que abordem qualquer uma das duas alternativas apresentadas.</div>
+                                    <div class="text-[10px] bg-slate-100 p-1 rounded font-mono text-right">microbite OR arduino</div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-2 bg-white p-2.5 rounded-xl border border-slate-150 text-xs text-slate-600 font-semibold items-center">
+                                    <div class="font-mono text-indigo-700 font-black">NOT (Sinal -)</div>
+                                    <div class="col-span-2 text-[11px] text-slate-500 leading-tight">Exclui inteiramente descrições ou palavras que poluam a tua área de pesquisa intelectual.</div>
+                                    <div class="text-[10px] bg-slate-100 p-1 rounded font-mono text-right">crimes -código</div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-2 bg-white p-2.5 rounded-xl border border-slate-150 text-xs text-slate-600 font-semibold items-center">
+                                    <div class="font-mono text-indigo-700 font-black">filetype:</div>
+                                    <div class="col-span-2 text-[11px] text-slate-500 leading-tight">Filtra recursos devolvendo apenas extensões de ficheiro específicas.</div>
+                                    <div class="text-[10px] bg-slate-100 p-1 rounded font-mono text-right">seguranca filetype:pdf</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Desinformação combatida -->
+                        <div class="bg-rose-50/50 border border-rose-200 rounded-2xl p-4 space-y-4">
+                            <h4 class="text-xs font-black text-rose-900 flex items-center gap-1.5 font-display">🚨 A Grelha de Fact-Checking contra Desinformação de TIC</h4>
+                            <p class="text-[11px] text-slate-650 font-semibold leading-relaxed">
+                                Boatos online e notícias forjadas (fake news) servem para roubar dados ou gerar sensacionalismo. Desenvolve espírito crítico analisando esta lista antes de partilhar:
+                            </p>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div class="bg-white p-3 rounded-xl border border-rose-100 space-y-1">
+                                    <h5 class="text-xs font-black text-slate-800 flex items-center gap-1"><span>1.</span> Avalia a URL do Site</h5>
+                                    <p class="text-[10px] text-slate-400 font-semibold leading-tight flex-1">Fraudes usam endereços estranhos terminados em sufixos bizarros (ex: .com.co ou .news.ru) para enganar imitando marcas famosas.</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-rose-100 space-y-1">
+                                    <h5 class="text-xs font-black text-slate-800 flex items-center gap-1"><span>2.</span> Verifica se há Outros Órgãos</h5>
+                                    <p class="text-[10px] text-slate-400 font-semibold leading-tight flex-1">Uma notícia real e oficial de relevância é coberta por múltiplos portais informativos nacionais fidedignos e conhecidos.</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-rose-100 space-y-1">
+                                    <h5 class="text-xs font-black text-slate-800 flex items-center gap-1"><span>3.</span> Deteta o Tom Alarmista</h5>
+                                    <p class="text-[10px] text-slate-400 font-semibold leading-tight flex-1">Títulos sensacionalistas com excesso de exclamações ("ATENÇÃO!", "URGENTE!!!") sem citar fontes governamentais ou científicas gritam sensacionalismo barulhento.</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-rose-100 space-y-1">
+                                    <h5 class="text-xs font-black text-slate-800 flex items-center gap-1"><span>4.</span> Procura o Autor e a Data</h5>
+                                    <p class="text-[10px] text-slate-400 font-semibold leading-tight flex-1">Confirma se há um jornalista creditado ou pesquisador real no terreno escolar, e valida se o caso não ocorreu há anos atrás.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- SUBPANE: Criacao -->
+                    <div id="manpane-criacao" class="hidden space-y-6">
+                        <div class="border-b pb-3 border-slate-100">
+                            <span class="text-[10px] bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full font-black uppercase tracking-wider">Unidade: CCI (Criação de Conteúdos)</span>
+                            <h3 class="text-lg font-black text-slate-800 mt-2 flex items-center gap-2">📊 Lição 3: Cálculos Automáticos e Lógica Robótica</h3>
+                            <p class="text-xs text-slate-400 mt-1">Sabe formular lógica condicional em planilhas e comandar atuadores robóticos.</p>
+                        </div>
+
+                        <!-- Excel Cheat sheet -->
+                        <div class="bg-indigo-50/20 border border-indigo-150 rounded-2xl p-4 text-left space-y-3 font-display">
+                            <h4 class="text-xs font-black text-indigo-900 flex items-center gap-1">📊 O Livro das Fórmulas de Cálculo e Estruturas</h4>
+                            <p class="text-[11px] text-slate-500 font-semibold mb-2">As folhas de cálculo (Excel, GSheets) operam a sua inteligência por intermédio das fórmulas. Lembra-te: deves obrigatoriamente digitar o sinal de igualdade <code>=</code> no início de qualquer célula:</p>
+                            
+                            <div class="space-y-2">
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-2 bg-white p-3 text-[11px] rounded-xl border border-slate-150 font-semibold text-slate-600 items-center">
+                                    <div class="font-mono text-indigo-700 font-black">SOMA</div>
+                                    <div class="col-span-2">Agrega o total matemático de parcelas de células de forma sucessiva.</div>
+                                    <div class="font-mono bg-slate-100 text-right p-1 rounded text-[10px] text-slate-755 font-bold">=SOMA(C3:C25)</div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-2 bg-white p-3 text-[11px] rounded-xl border border-slate-150 font-semibold text-slate-600 items-center">
+                                    <div class="font-mono text-indigo-700 font-black">MÉDIA</div>
+                                    <div class="col-span-2">Gera o valor intermédio aritmético das notas ou valores de despesa inseridos.</div>
+                                    <div class="font-mono bg-slate-100 text-right p-1 rounded text-[10px] text-slate-755 font-bold">=MÉDIA(F2:F12)</div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-2 bg-white p-3 text-[11px] rounded-xl border border-slate-150 font-semibold text-slate-600 items-center">
+                                    <div class="font-mono text-indigo-700 font-black">SE (Condição)</div>
+                                    <div class="col-span-2">Executa uma bifurcação lógica: se o teste for verdadeiro mostra resposta X, senão responde oposto.</div>
+                                    <div class="font-mono bg-slate-105 text-right p-1 rounded text-[10px] text-slate-755 font-bold">=SE(D2>=10;"Aprov";"Reprov")</div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-2 bg-white p-3 text-[11px] rounded-xl border border-slate-150 font-semibold text-slate-600 items-center">
+                                    <div class="font-mono text-indigo-700 font-black">MÍNIMO / MÁXIMO</div>
+                                    <div class="col-span-2">Devolve e exibe instantaneamente o menor ou o maior valor absoluto do intervalo de dados.</div>
+                                    <div class="font-mono bg-slate-100 text-right p-1 rounded text-[10px] text-slate-755 font-bold">=MÍNIMO(A1:B10)</div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-2 bg-white p-3 text-[11px] rounded-xl border border-slate-150 font-semibold text-slate-600 items-center">
+                                    <div class="font-mono text-indigo-700 font-black">CONT.SE</div>
+                                    <div class="col-span-2">Analisa e efetua a contagem de células que obedecem a uma condição específica designada.</div>
+                                    <div class="font-mono bg-slate-100 text-right p-1 rounded text-[10px] text-slate-755 font-bold">=CONT.SE(E2:E20; ">15")</div>
+                                </div>
+                            </div>
+
+                            <p class="text-[10px] bg-purple-50 text-purple-800 border border-purple-200 p-2.5 rounded-xl font-bold mt-2 leading-relaxed">
+                                💡 <strong>A Magia da Referência Absoluta ($):</strong> Ao escrever o cifrão <code>$</code> antes das referências de coluna e linha (ex: <code>$C$4</code>), garantes o seu travamento na planilha. Quando arrastas a fórmula para preencher células em baixo, ela permanece totalmente inalterada. Muito útil para taxas de IVA ou valores de referência constantes.
+                            </p>
+                        </div>
+
+                        <!-- Iot & Computação -->
+                        <div class="bg-emerald-50/30 border border-emerald-150 rounded-2xl p-4 text-left space-y-3 font-display">
+                            <h4 class="text-xs font-black text-emerald-950 flex items-center gap-1">🤖 Relação entre Algoritmo, Sensores e Atuadores</h4>
+                            <p class="text-[11px] text-slate-650 leading-relaxed font-semibold">Os autómatos programáveis de robótica e internet das coisas (IoT) atuam através de algoritmos (conjunto de passos e tomadas de decisão lógicas) e circuitos:</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-white p-3.5 rounded-xl border border-emerald-150 space-y-1">
+                                    <h5 class="text-xs font-black text-slate-800 flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-indigo-500 rounded-full animate-pulse"></span> Sensores (Entrada / Inputs)</h5>
+                                    <p class="text-[10px] text-slate-400 font-semibold leading-relaxed">Dispositivos que detetam e recolhem grandezas físicas externas do laboratório para a placa de comando. Exemplo:</p>
+                                    <ul class="text-[10px] text-slate-500 font-semibold list-disc pl-4 space-y-0.5">
+                                        <li><strong>Sensor de Luz (LDR):</strong> Fornece a luminosidade do ambiente em valores de 0 a 1023.</li>
+                                        <li><strong>Sensor Ultrassónico:</strong> Emite ultrassons e calcula a distância a um obstáculo medindo o tempo de eco.</li>
+                                        <li><strong>Sensor de Temperatura DHT11:</strong> Lê a percentagem de humidade relativa do ar.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-white p-3.5 rounded-xl border border-emerald-150 space-y-1">
+                                    <h5 class="text-xs font-black text-slate-800 flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-rose-500 rounded-full animate-pulse"></span> Atuadores (Saída / Outputs)</h5>
+                                    <p class="text-[10px] text-slate-400 font-semibold leading-relaxed">Mecanismos físicos que emitem respostas no mundo físico controlados pelas variáveis lógicas do chip. Exemplo:</p>
+                                    <ul class="text-[10px] text-slate-500 font-semibold list-disc pl-4 space-y-0.5">
+                                        <li><strong>Servo-Motor:</strong> Efetua rotações mecânicas rigorosas em termos de graus de 0 a 180º.</li>
+                                        <li><strong>LED Dinâmico:</strong> Traduz sinais luminosos visuais de alerta ou luz contínua.</li>
+                                        <li><strong>Buzzer Piezoelétrico:</strong> Converte impulsos elétricos lógicos em avisos sonoros e notas musicais.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- SUBPANE: Flashcards -->
+                    <div id="manpane-flashcards" class="hidden space-y-6">
+                        <div class="border-b pb-3 border-slate-100 flex justify-between items-center bg-white flex-wrap gap-2 font-display">
+                            <div>
+                                <span class="text-[10px] bg-amber-100 text-amber-850 px-2.5 py-1 rounded-full font-black uppercase tracking-wider">Centro de Memorização Ativa</span>
+                                <h3 class="text-lg font-black text-slate-800 mt-2 flex items-center gap-2">🎴 Flashcards de Memorização Rápida de TIC</h3>
+                                <p class="text-xs text-slate-400 mt-1">Estuda os termos chave clicando para virar cada carta e ganha XP de bónus!</p>
+                            </div>
+                            <button id="claim-manual-xp-btn" onclick="claimManualStudyXP()" class="px-3.5 py-2 border-2 border-amber-350 bg-amber-50 rounded-xl text-[11px] font-black uppercase text-amber-800 hover:bg-amber-100 select-none cursor-pointer">Validar Estudo (+50 XP)</button>
+                        </div>
+
+                        <!-- Card Deck Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4" id="flashcard-deck-row">
+                            <!-- Rendered by JS -->
+                        </div>
+
+                        <div class="p-3 bg-indigo-50 border border-indigo-200 text-indigo-900 rounded-xl text-[10px] font-bold text-center italic">
+                            💡 Clica em cada um dos cartões de cima para virar e estudar. Vira pelo menos 6 cartões para habilitares-te a resgatar os +50 XP do teu estudo!
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
         <!-- ==================== TAB: SEGURANÇA ==================== -->
         <section id="tab-seguranca" class="hidden space-y-6">
             <div id="seg-game-container"></div>
@@ -172,10 +548,12 @@
             { id: 'mestre_investigador', title: 'Mestre Investigador 🔍', desc: 'Sabe construir fórmulas lógicas e detetar boatos.' },
             { id: 'mestre_inovacao', title: 'Mestre da Inovação 🤖', desc: 'Programou o robô IoT até ao chip sensor com sucesso.' },
             { id: 'gladiador_tic', title: 'Gladiador de TIC ⚔️', desc: 'Desafiou e venceu duelos curriculares escolares.' },
+            { id: 'estudioso_elite', title: 'Estudioso de Elite 📖', desc: 'Reviu com sucesso o Manual de TIC e os Flashcards interativos!' },
             { id: 'curioso', title: 'Explorador Curioso 🚀', desc: 'Boas-vindas à academia e início de estudos de TIC!' }
         ];
 
         const QUESTS_DEFINITIONS = [
+            { id: 'manual_master', title: 'Manual de TIC & Estudo', desc: 'Rever as lições e os flashcards teóricos do manual.', xp: 50 },
             { id: 'seguranca_hero', title: 'Privacidade e Wi-Fi', desc: 'Permissões lógicas e conexão encriptada.', xp: 30 },
             { id: 'pesquisa_pro', title: 'Operadores de Pesquisa', desc: 'Desenvolver filtros booleanos rigorosos.', xp: 30 },
             { id: 'criar_inovar_champion', title: 'Inovação e Mapeamento', desc: 'Mover e ativar sensor robotizado.', xp: 40 },
@@ -332,18 +710,22 @@
 
         // Switch Active Tabs
         function switchTab(tabId) {
-            const tabs = ['dashboard', 'seguranca', 'pesquisa', 'criar', 'duelo'];
+            const tabs = ['dashboard', 'manual', 'seguranca', 'pesquisa', 'criar', 'duelo'];
             tabs.forEach(t => {
-                document.getElementById('tab-' + t).classList.add('hidden');
+                const el = document.getElementById('tab-' + t);
+                if (el) el.classList.add('hidden');
                 const btn = document.getElementById('nav-' + t);
-                btn.className = "px-3 py-1.5 rounded-xl text-xs font-black transition-all text-slate-500 hover:text-slate-850";
+                if (btn) btn.className = "px-3 py-1.5 rounded-xl text-xs font-black transition-all text-slate-500 hover:text-slate-850";
             });
-            document.getElementById('tab-' + tabId).classList.remove('hidden');
-            document.getElementById('nav-' + tabId).className = "px-3 py-1.5 rounded-xl text-xs font-black transition-all bg-indigo-600 text-white shadow";
+            const activeTabPane = document.getElementById('tab-' + tabId);
+            if (activeTabPane) activeTabPane.classList.remove('hidden');
+            const activeTabBtn = document.getElementById('nav-' + tabId);
+            if (activeTabBtn) activeTabBtn.className = "px-3 py-1.5 rounded-xl text-xs font-black transition-all bg-indigo-600 text-white shadow";
 
             lucide.createIcons();
             
             // Build sub games instantly
+            if (tabId === 'manual') bootstrapManual();
             if (tabId === 'seguranca') bootstrapSeguranca();
             if (tabId === 'pesquisa') bootstrapPesquisa();
             if (tabId === 'criar') bootstrapCriar();
@@ -368,9 +750,16 @@
             bGrid.innerHTML = '';
             BADGES_DEFINITIONS.forEach(b => {
                 const unl = progress.earnedBadges.includes(b.id);
+                let badgeEmoji = '🚀';
+                if (b.id === 'defensor_dados') badgeEmoji = '🛡️';
+                else if (b.id === 'mestre_investigador') badgeEmoji = '🔍';
+                else if (b.id === 'mestre_inovacao') badgeEmoji = '🤖';
+                else if (b.id === 'gladiador_tic') badgeEmoji = '⚔️';
+                else if (b.id === 'estudioso_elite') badgeEmoji = '📖';
+                
                 bGrid.innerHTML += `
                     <div class="p-3 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-between text-center min-h-[140px] ${unl ? 'border-amber-300 bg-amber-50/20 shadow-md scale-102 font-extrabold' : 'border-slate-100 opacity-40'}">
-                        <span class="text-3xl">${b.id === 'defensor_dados' ? '🛡️' : b.id === 'mestre_investigador' ? '🔍' : b.id === 'mestre_inovacao' ? '🤖' : b.id === 'gladiador_tic' ? '⚔️' : '🚀'}</span>
+                        <span class="text-3xl">${badgeEmoji}</span>
                         <h4 class="text-xs text-slate-800 leading-tight block mt-2">${b.title}</h4>
                         <p class="text-[9px] text-slate-400 font-semibold leading-tight block mt-1">${b.desc}</p>
                     </div>
@@ -412,6 +801,121 @@
             anchor.click();
             document.body.removeChild(anchor);
             URL.revokeObjectURL(url);
+        }
+
+        // =======================================================================
+        // MANUAL DE ESTUDO & PLANIFICAÇÃO CONTROLLERS
+        // =======================================================================
+        let activeManualTab = 'planificacao';
+        let flippedCards = {};
+        
+        function switchManualSubTab(tabId) {
+            activeManualTab = tabId;
+            const subtabs = ['planificacao', 'seguranca', 'pesquisa', 'criacao', 'flashcards'];
+            subtabs.forEach(t => {
+                const pane = document.getElementById('manpane-' + t);
+                if (pane) pane.classList.add('hidden');
+                
+                const btn = document.getElementById('mansub-' + t);
+                if (btn) {
+                    if (t === 'flashcards') {
+                        btn.className = "min-w-[160px] lg:w-full text-left p-3 rounded-2xl border-2 border-amber-300 border-b-4 bg-amber-50 hover:bg-amber-100 font-extrabold text-xs text-amber-800 flex items-center justify-between gap-1 shrink-0 transition-all";
+                    } else {
+                        btn.className = "min-w-[150px] lg:w-full text-left p-3 rounded-2xl border-2 border-slate-100 border-b-4 bg-white hover:bg-slate-50 font-semibold text-xs text-slate-500 flex items-center gap-2 shrink-0 transition-all";
+                    }
+                }
+            });
+            
+            const activePane = document.getElementById('manpane-' + tabId);
+            if (activePane) activePane.classList.remove('hidden');
+            
+            const activeBtn = document.getElementById('mansub-' + tabId);
+            if (activeBtn) {
+                if (tabId === 'flashcards') {
+                    activeBtn.className = "min-w-[160px] lg:w-full text-left p-3 rounded-2xl border-2 border-amber-500 border-b-4 bg-amber-100 transition-all font-black text-xs text-amber-900 flex items-center justify-between gap-1 shrink-0 shadow-md scale-102";
+                } else {
+                    activeBtn.className = "min-w-[150px] lg:w-full text-left p-3 rounded-2xl border-2 border-indigo-500 border-b-4 bg-indigo-50 transition-all font-black text-xs text-indigo-850 flex items-center gap-2 shrink-0 shadow-sm scale-102";
+                }
+            }
+            
+            if (tabId === 'flashcards') {
+                renderFlashcards();
+            }
+        }
+
+        const MANUAL_FLASHCARDS = [
+            { id: 1, term: "© Direitos de Autor", def: "Proteção concedida a todas as criações intelectuais. É proibida por lei a sua cópia, aproveitamento comercial ou alteração sem autorização explícita." },
+            { id: 2, term: "Creative Commons (CC BY-NC)", def: "Licenças flexíveis. O subtipo BY-NC autoriza partilha e modificação gratuita sob citação e para fins não lucrativos." },
+            { id: 3, term: "Fórmula SE em Planilhas", def: "Executa testes lógicos cruciais das notas e despesas escolares. Ex: =SE(C2>=10; 'Aprovado'; 'Reprovado')." },
+            { id: 4, term: "Referência Absoluta ($)", def: "Fixação definitiva de célula ao arrastar fórmulas. Insere-se cifrão na coluna/linha. Ex: =$C$4." },
+            { id: 5, term: "Ataque de Phishing", def: "Mensagens fraudulentas falsas (emails, links) para roubar credenciais pessoais fingindo ser serviços oficiais da escola." },
+            { id: 6, term: "HTTPS (Cifragem Segura)", def: "Navegação segura encriptada com cadeado visível. Impede eavesdropping de terceiros na tua rede Wi-Fi." },
+            { id: 7, term: "Sensor vs Atuador", def: "O sensor recebe informação ambiental exterior (importação de dados; Ex: luz LDR). O atuador cria reações físicas mecânicas (Ex: servomotor, buzzer)." },
+            { id: 8, term: "Operador Booleano NOT", def: "Filtram pesquisas na web banindo palavras não desejadas por intermédio do sinal subtrativo (-). Ex: internet -criminosos." }
+        ];
+
+        let cardFlippedStates = {};
+
+        function renderFlashcards() {
+            const row = document.getElementById('flashcard-deck-row');
+            if (!row) return;
+            row.innerHTML = '';
+            
+            MANUAL_FLASHCARDS.forEach(c => {
+                const isBack = cardFlippedStates[c.id] === 'back';
+                const hasFlippedOnce = flippedCards[c.id] === true;
+                
+                if (!isBack) {
+                    row.innerHTML += `
+                        <div onclick="toggleFlashcard(${c.id})" class="p-4 bg-slate-50 border-2 border-b-4 border-slate-200 rounded-2xl h-44 flex flex-col justify-between items-center text-center cursor-pointer hover:border-indigo-400 hover:scale-103 transition-all select-none">
+                            <span class="text-xs bg-slate-200 px-2 py-0.5 rounded-full font-black text-slate-500 font-mono">#${c.id}</span>
+                            <h4 class="text-xs font-black text-slate-800 leading-snug mt-1">${c.term}</h4>
+                            <span class="text-[10px] font-bold text-indigo-600 flex items-center gap-1 mt-2">Ver Definição 💡</span>
+                        </div>
+                    `;
+                } else {
+                    row.innerHTML += `
+                        <div onclick="toggleFlashcard(${c.id})" class="p-3 bg-indigo-50 border-2 border-b-4 border-indigo-400 rounded-2xl h-44 flex flex-col justify-between items-center text-center cursor-pointer hover:scale-103 transition-all select-none">
+                            <span class="text-[9px] bg-indigo-150 px-2 py-0.5 rounded-full font-black text-indigo-750">Estudado ✔️</span>
+                            <p class="text-[10px] font-semibold text-indigo-950 leading-relaxed overflow-y-auto w-full max-h-24 py-1 pr-1">${c.def}</p>
+                            <span class="text-[10px] font-bold text-slate-500 mt-1">Voltar ↩️</span>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        function toggleFlashcard(id) {
+            flippedCards[id] = true;
+            cardFlippedStates[id] = cardFlippedStates[id] === 'back' ? 'front' : 'back';
+            playSound('correct');
+            renderFlashcards();
+        }
+
+        function claimManualStudyXP() {
+            const count = Object.keys(flippedCards).length;
+            if (count < 6) {
+                talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Ainda tens cartões de memorização por ler e estudar! Clica e vira pelo menos 6 cartões para consolidares os conhecimentos antes de resgatar prémio.', 'warning');
+                playSound('wrong');
+                return;
+            }
+            if (progress.completedQuests.includes('manual_master')) {
+                talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Excelente! Já tens o teu diploma de estudo de elite e os +50 XP registados na tua caderneta escolar!', 'happy');
+                playSound('correct');
+                return;
+            }
+            // Award study XP
+            gainXp(50, 'estudioso_elite');
+            completeQuest('manual_master');
+            playSound('victory');
+            talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Brilhante! Completaste o estudo teóricos de TIC do 3.º Ciclo e tens agora o teu diploma e +50 XP garantidos!', 'victory');
+            switchManualSubTab('planificacao');
+        }
+
+        function bootstrapManual() {
+            const mascotName = progress.selectedMascot === 'tico' ? 'Tico' : 'Teca';
+            talk(mascotName, 'Explora as lições teóricas do manual de TIC do 3.º Ciclo, consulta os critérios de avaliação e estuda os cartões de memorização ativa!', 'happy');
+            switchManualSubTab(activeManualTab);
         }
 
         // =======================================================================

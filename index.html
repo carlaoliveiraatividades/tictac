@@ -1,13 +1,1298 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIC Kids: Exploradores Digitais</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;950&family=Space+Grotesk:wght@500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+        h1, h2, h3, h4, .font-display { font-family: 'Space Grotesk', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        @keyframes scale-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .animate-pulse-slow { animation: scale-pulse 3s infinite ease-in-out; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800 pb-12 select-none tracking-tight">
 
+    <!-- HEADER NAVIGATION -->
+    <header class="w-full bg-white border-b-4 border-slate-100 py-4 px-4 md:px-8 sticky top-0 z-50 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <span class="text-3xl animate-bounce">🚀</span>
+            <div class="text-left font-display">
+                <h1 class="text-xl font-bold text-indigo-600 tracking-tight leading-none">TIC Kids: 3.º Ciclo</h1>
+                <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mt-1">Exploradores e Inovadores Digitais</p>
+            </div>
+        </div>
+        
+        <nav class="flex bg-slate-100 p-1 rounded-2xl gap-1 shrink-0 border border-slate-250">
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="px-3 py-1.5 rounded-xl text-xs font-black transition-all bg-indigo-600 text-white shadow">Painel 📊</button>
+            <button onclick="switchTab('seguranca')" id="nav-seguranca" class="px-3 py-1.5 rounded-xl text-xs font-black transition-all text-slate-500 hover:text-slate-850">Segurança 🛡️</button>
+            <button onclick="switchTab('pesquisa')" id="nav-pesquisa" class="px-3 py-1.5 rounded-xl text-xs font-black transition-all text-slate-500 hover:text-slate-850">Pesquisa 🔍</button>
+            <button onclick="switchTab('criar')" id="nav-criar" class="px-3 py-1.5 rounded-xl text-xs font-black transition-all text-slate-500 hover:text-slate-850">Criar 🤖</button>
+            <button onclick="switchTab('duelo')" id="nav-duelo" class="px-3 py-1.5 rounded-xl text-xs font-black transition-all text-slate-500 hover:text-slate-850">Duelo ⚔️</button>
+        </nav>
+
+        <div class="flex items-center gap-2">
+            <span class="text-xs font-black bg-amber-100 text-amber-700 border-2 border-amber-300 px-3 py-1 rounded-full" id="head-xp">0 XP</span>
+            <span class="text-xs font-black bg-pink-100 text-pink-700 border-2 border-pink-300 px-3 py-1 rounded-full" id="head-level">NL 1</span>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 mt-6 space-y-6">
+
+        <!-- MASCOT SPEECH BUBBLE -->
+        <div class="flex items-center gap-4 p-4 bg-white rounded-3xl border-2 border-b-6 border-slate-100 shadow-sm transition-all duration-300">
+            <div class="flex flex-col items-center shrink-0">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-50 to-pink-50 flex items-center justify-center text-3xl shadow-inner border-2 border-white animate-pulse-slow" id="mascot-face-img">
+                    🤖
+                </div>
+                <span class="mt-1 text-[10px] font-black text-slate-800 bg-slate-100 px-2 py-0.5 rounded-full uppercase" id="mascot-name">Tico</span>
+            </div>
+            <div class="flex-1 min-w-0 bg-yellow-50/50 p-3 rounded-2xl border border-yellow-250 relative text-left">
+                <div class="absolute top-5 -left-2 w-0 h-0 border-t-6 border-t-transparent border-r-6 border-r-yellow-200 border-b-6 border-b-transparent"></div>
+                <p class="text-xs md:text-sm font-medium text-slate-700 leading-relaxed" id="bubble-speech">
+                    Seja bem-vindo, explorador! Selecione as abas acima para comandar computadores, analisar redes escolares e enfrentar duelos de TIC!
+                </p>
+            </div>
+        </div>
+
+        <!-- ==================== TAB: DASHBOARD ==================== -->
+        <section id="tab-dashboard" class="space-y-6">
+            <div class="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl p-6 text-white shadow-md border-b-6 border-emerald-700 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-4 text-left w-full md:w-auto">
+                    <div id="prof-avatar" class="w-16 h-16 rounded-full bg-white/20 border-4 border-white/50 flex items-center justify-center text-3xl shrink-0">
+                        🤖
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <h2 id="prof-name" class="text-xl font-black">Explorador Escolar</h2>
+                            <button onclick="editNickname()" class="text-[9px] bg-white/20 border border-white/35 px-2.5 py-0.5 rounded-lg hover:bg-white/30 font-bold uppercase">Mudar Nome</button>
+                        </div>
+                        <p class="text-xs text-emerald-100 font-semibold" id="prof-rank">Cibernauta de TIC do 9.º Ano</p>
+                        <p class="text-xs text-amber-300 font-black mt-1" id="prof-status-indicator">Pontos de Progresso: 0 / 100 XP (Nível 1)</p>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-72 text-left bg-emerald-800/40 p-4 rounded-2xl border border-white/10 shrink-0">
+                    <div class="flex justify-between font-black text-xs mb-1">
+                        <span>Progresso de Nível:</span>
+                        <span id="prof-percent">0%</span>
+                    </div>
+                    <div class="w-full bg-emerald-950/45 rounded-full h-3 overflow-hidden border border-emerald-900/50">
+                        <div id="prof-progress" class="bg-gradient-to-r from-amber-400 to-yellow-300 h-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mascot Selector + Fast Config Box -->
+            <div class="bg-white rounded-3xl border-2 border-b-6 border-slate-100 p-5 shadow-sm text-left">
+                <h3 class="font-extrabold text-sm text-slate-800 flex items-center gap-2 border-b border-slate-100 pb-2 mb-3">⚙️ Configurações e Escolha do teu Guia Escolar</h3>
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
+                    <div>
+                        <p class="text-xs text-slate-500 font-semibold leading-relaxed">Seleciona quem irá guiar e avaliar o teu comportamento durante as atividades cibernéticas e lógicas:</p>
+                        <div class="flex gap-2 mt-2">
+                            <button onclick="selectMascot('tico')" id="mbtn-tico" class="px-4 py-2 rounded-xl text-xs font-black border-2 border-indigo-500 bg-indigo-50 text-indigo-700">Tico (Robô Educador) 🤖</button>
+                            <button onclick="selectMascot('teca')" id="mbtn-teca" class="px-4 py-2 rounded-xl text-xs font-black border-2 border-slate-200 text-slate-600 hover:bg-slate-50">Teca (Astronauta de Informática) 👩‍🚀</button>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="resetAllProgress()" class="px-4 py-2 border-2 border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 text-xs font-black rounded-xl uppercase">Reset 🔄</button>
+                        <button onclick="downloadStandaloneSelf()" class="px-4 py-2 border-2 border-indigo-205 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 text-xs font-black rounded-xl uppercase">Exportar HTML 💾</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                <!-- Badges -->
+                <div class="col-span-1 md:col-span-2 bg-white rounded-3xl border-2 border-b-6 border-slate-100 p-6 shadow-sm">
+                    <h3 class="font-extrabold text-slate-800 text-sm flex items-center gap-2 border-b pb-3 mb-4"><i data-lucide="award" class="text-amber-500"></i> Medalhas Académicas Conquistadas</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4" id="badges-grid">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- Active Quests -->
+                <div class="col-span-1 bg-white rounded-3xl border-2 border-b-6 border-slate-100 p-6 shadow-sm">
+                    <h3 class="font-extrabold text-slate-800 text-sm flex items-center gap-2 border-b pb-3 mb-4"><i data-lucide="book-open" class="text-indigo-500"></i> Desafios do Lab</h3>
+                    <div class="space-y-3" id="quests-list">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB: SEGURANÇA ==================== -->
+        <section id="tab-seguranca" class="hidden space-y-6">
+            <div id="seg-game-container"></div>
+        </section>
+
+        <!-- ==================== TAB: PESQUISA ==================== -->
+        <section id="tab-pesquisa" class="hidden space-y-6">
+            <div id="pesq-game-container"></div>
+        </section>
+
+        <!-- ==================== TAB: CRIAR ==================== -->
+        <section id="tab-criar" class="hidden space-y-6">
+            <div id="criar-game-container"></div>
+        </section>
+
+        <!-- ==================== TAB: DUELO ==================== -->
+        <section id="tab-duelo" class="hidden space-y-6">
+            <div id="duel-game-container"></div>
+        </section>
+
+    </main>
+
+    <!-- JS GAME ENGINE -->
+    <script>
+        // Progress keys match standard definitions
+        const STORAGE_KEY = 'tic_kids_user_state';
+        
+        let progress = {
+            nickname: 'Explorador de TIC',
+            selectedMascot: 'tico',
+            xp: 0,
+            level: 1,
+            completedQuests: [],
+            earnedBadges: ['curioso'],
+            scores: {
+                segurancaMaxScore: 0,
+                pesquisaMaxScore: 0,
+                criarInovarMaxScore: 0,
+                multiplayerWins: 0
+            }
+        };
+
+        const BADGES_DEFINITIONS = [
+            { id: 'defensor_dados', title: 'Defensor de Dados 🛡️', desc: 'Completou decisões de privacidade e Wi-Fi seguro.' },
+            { id: 'mestre_investigador', title: 'Mestre Investigador 🔍', desc: 'Sabe construir fórmulas lógicas e detetar boatos.' },
+            { id: 'mestre_inovacao', title: 'Mestre da Inovação 🤖', desc: 'Programou o robô IoT até ao chip sensor com sucesso.' },
+            { id: 'gladiador_tic', title: 'Gladiador de TIC ⚔️', desc: 'Desafiou e venceu duelos curriculares escolares.' },
+            { id: 'curioso', title: 'Explorador Curioso 🚀', desc: 'Boas-vindas à academia e início de estudos de TIC!' }
+        ];
+
+        const QUESTS_DEFINITIONS = [
+            { id: 'seguranca_hero', title: 'Privacidade e Wi-Fi', desc: 'Permissões lógicas e conexão encriptada.', xp: 30 },
+            { id: 'pesquisa_pro', title: 'Operadores de Pesquisa', desc: 'Desenvolver filtros booleanos rigorosos.', xp: 30 },
+            { id: 'criar_inovar_champion', title: 'Inovação e Mapeamento', desc: 'Mover e ativar sensor robotizado.', xp: 40 },
+            { id: 'multiplayer_badge', title: 'Duelo Cooperativo', desc: 'Ganha ou termina um torneio multiplayer.', xp: 40 }
+        ];
+
+        // Synthesizer Engine
+        function playSound(type) {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                if (type === 'correct') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(440, ctx.currentTime);
+                    osc.frequency.setValueAtTime(660, ctx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.4);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, ctx.currentTime);
+                    osc.frequency.setValueAtTime(147, ctx.currentTime + 0.2);
+                    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.4);
+                } else if (type === 'victory') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523, ctx.currentTime);
+                    osc.frequency.setValueAtTime(659, ctx.currentTime + 0.15);
+                    osc.frequency.setValueAtTime(784, ctx.currentTime + 0.3);
+                    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.6);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.6);
+                }
+            } catch(e) {}
+        }
+
+        // Load & save states
+        function loadOrCreateProgress() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                try {
+                    progress = JSON.parse(stored);
+                } catch(e) {}
+            }
+            // Populate defaults
+            if (!progress.earnedBadges) progress.earnedBadges = ['curioso'];
+            if (!progress.completedQuests) progress.completedQuests = [];
+            
+            updateUi();
+        }
+
+        function saveProgress() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+            updateUi();
+        }
+
+        function resetAllProgress() {
+            if (confirm('Desejas reiniciar todas as tuas conquistas, níveis e tarefas?')) {
+                progress = {
+                    nickname: 'Explorador de TIC',
+                    selectedMascot: 'tico',
+                    xp: 0,
+                    level: 1,
+                    completedQuests: [],
+                    earnedBadges: ['curioso'],
+                    scores: {
+                        segurancaMaxScore: 0,
+                        pesquisaMaxScore: 0,
+                        criarInovarMaxScore: 0,
+                        multiplayerWins: 0
+                    }
+                };
+                saveProgress();
+                talk('Tico', 'Academia reinventada! Todas as tuas tarefas voltaram ao ponto inicial.', 'happy');
+                switchTab('dashboard');
+            }
+        }
+
+        function editNickname() {
+            const input = prompt('Digita o teu nome de cibernauta escolar:', progress.nickname);
+            if (input && input.trim()) {
+                progress.nickname = input.trim();
+                saveProgress();
+            }
+        }
+
+        function selectMascot(m) {
+            progress.selectedMascot = m;
+            saveProgress();
+            talk(m === 'tico' ? 'Tico' : 'Teca', 'Acabas de me escolher! Estou aqui para monitorizar ciber-tarefas!', 'happy');
+        }
+
+        function gainXp(amount, badgeId = null) {
+            progress.xp += amount;
+            let needed = progress.level * 100;
+            if (progress.xp >= needed) {
+                progress.xp -= needed;
+                progress.level += 1;
+                playSound('victory');
+                showLevelUpPopup();
+            }
+            if (badgeId && !progress.earnedBadges.includes(badgeId)) {
+                progress.earnedBadges.push(badgeId);
+                playSound('victory');
+            }
+            saveProgress();
+        }
+
+        function completeQuest(qId) {
+            if (!progress.completedQuests.includes(qId)) {
+                progress.completedQuests.push(qId);
+                const qDef = QUESTS_DEFINITIONS.find(q => q.id === qId);
+                if (qDef) {
+                    gainXp(qDef.xp);
+                }
+            }
+        }
+
+        function showLevelUpPopup() {
+            const modal = document.createElement('div');
+            modal.className = "fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4";
+            modal.innerHTML = `
+                <div class="bg-white rounded-3xl p-8 max-w-sm w-full text-center border-4 border-amber-400 shadow-2xl relative space-y-4">
+                    <div class="text-6xl animate-bounce">🎉</div>
+                    <h3 class="text-2xl font-black text-amber-500 font-display">Subiste de Nível!</h3>
+                    <p class="text-sm font-semibold text-slate-650 leading-relaxed">Parabéns! Chegaste ao Nível ${progress.level}! Estás cada vez mais sábio em competências de Tecnologias de Informação!</p>
+                    <button onclick="document.body.removeChild(this.parentNode.parentNode)" class="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-black rounded-xl border-b-4 border-amber-800 shadow shadow-amber-200 uppercase cursor-pointer">Continuar Exploração</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function talk(name, text, expression = 'happy') {
+            document.getElementById('mascot-name').innerText = name;
+            let emoji = '🤖';
+            if (name.toLowerCase() === 'teca') emoji = '👩‍🚀';
+            
+            if (expression === 'happy') emoji = name.toLowerCase() === 'teca' ? '👩‍🚀' : '🤖';
+            else if (expression === 'thinking') emoji = name.toLowerCase() === 'teca' ? '👩‍🚀💡' : '🤖💡';
+            else if (expression === 'warning') emoji = name.toLowerCase() === 'teca' ? '👩‍🚀⚠️' : '🤖⚠️';
+            else if (expression === 'victory') emoji = name.toLowerCase() === 'teca' ? '👩‍🚀👑' : '🤖👑';
+
+            document.getElementById('mascot-face-img').innerText = emoji;
+            document.getElementById('bubble-speech').innerText = text;
+        }
+
+        // Switch Active Tabs
+        function switchTab(tabId) {
+            const tabs = ['dashboard', 'seguranca', 'pesquisa', 'criar', 'duelo'];
+            tabs.forEach(t => {
+                document.getElementById('tab-' + t).classList.add('hidden');
+                const btn = document.getElementById('nav-' + t);
+                btn.className = "px-3 py-1.5 rounded-xl text-xs font-black transition-all text-slate-500 hover:text-slate-850";
+            });
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            document.getElementById('nav-' + tabId).className = "px-3 py-1.5 rounded-xl text-xs font-black transition-all bg-indigo-600 text-white shadow";
+
+            lucide.createIcons();
+            
+            // Build sub games instantly
+            if (tabId === 'seguranca') bootstrapSeguranca();
+            if (tabId === 'pesquisa') bootstrapPesquisa();
+            if (tabId === 'criar') bootstrapCriar();
+            if (tabId === 'duelo') bootstrapDuelo();
+        }
+
+        // Main Visual renderer for stats
+        function updateUi() {
+            document.getElementById('prof-avatar').innerText = progress.selectedMascot === 'tico' ? '🤖' : '👩‍🚀';
+            document.getElementById('prof-name').innerText = progress.nickname;
+            document.getElementById('head-xp').innerText = progress.xp + " XP";
+            document.getElementById('head-level').innerText = "NL " + progress.level;
+
+            let needed = progress.level * 100;
+            document.getElementById('prof-status-indicator').innerText = `Pontos de Progresso: ${progress.xp} / ${needed} XP (Nível ${progress.level})`;
+            let pct = Math.min(100, Math.floor((progress.xp / needed) * 100));
+            document.getElementById('prof-percent').innerText = pct + "%";
+            document.getElementById('prof-progress').style.width = pct + "%";
+
+            // Draw badges
+            const bGrid = document.getElementById('badges-grid');
+            bGrid.innerHTML = '';
+            BADGES_DEFINITIONS.forEach(b => {
+                const unl = progress.earnedBadges.includes(b.id);
+                bGrid.innerHTML += `
+                    <div class="p-3 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center justify-between text-center min-h-[140px] ${unl ? 'border-amber-300 bg-amber-50/20 shadow-md scale-102 font-extrabold' : 'border-slate-100 opacity-40'}">
+                        <span class="text-3xl">${b.id === 'defensor_dados' ? '🛡️' : b.id === 'mestre_investigador' ? '🔍' : b.id === 'mestre_inovacao' ? '🤖' : b.id === 'gladiador_tic' ? '⚔️' : '🚀'}</span>
+                        <h4 class="text-xs text-slate-800 leading-tight block mt-2">${b.title}</h4>
+                        <p class="text-[9px] text-slate-400 font-semibold leading-tight block mt-1">${b.desc}</p>
+                    </div>
+                `;
+            });
+
+            // Draw quests
+            const qList = document.getElementById('quests-list');
+            qList.innerHTML = '';
+            QUESTS_DEFINITIONS.forEach(q => {
+                const complete = progress.completedQuests.includes(q.id);
+                qList.innerHTML += `
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-2">
+                        <div class="text-left">
+                            <h4 class="text-xs font-black text-slate-700 leading-tight">${q.title}</h4>
+                            <p class="text-[9px] text-slate-400 mt-0.5">${q.desc}</p>
+                        </div>
+                        <div class="shrink-0">
+                            ${complete ? '<span class="text-emerald-500 font-black text-xs">✔️ Completo</span>' : `<span class="text-[9px] font-black bg-indigo-100 text-indigo-750 px-2 py-0.5 rounded-full">+${q.xp} XP</span>`}
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Active button triggers styling
+            document.getElementById('mbtn-tico').className = progress.selectedMascot === 'tico' ? "px-4 py-2 rounded-xl text-xs font-black border-2 border-indigo-500 bg-indigo-50 text-indigo-700" : "px-4 py-2 rounded-xl text-xs font-black border-2 border-slate-200 text-slate-600 hover:bg-slate-50";
+            document.getElementById('mbtn-teca').className = progress.selectedMascot === 'teca' ? "px-4 py-2 rounded-xl text-xs font-black border-2 border-indigo-500 bg-indigo-50 text-indigo-700" : "px-4 py-2 rounded-xl text-xs font-black border-2 border-slate-200 text-slate-600 hover:bg-slate-50";
+        }
+
+        // Export Standalone
+        function downloadStandaloneSelf() {
+            const markup = document.documentElement.outerHTML;
+            const blob = new Blob([markup], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const anchor = document.createElement('a');
+            anchor.href = url;
+            anchor.download = 'academia_tic_kids.html';
+            document.body.appendChild(anchor);
+            anchor.click();
+            document.body.removeChild(anchor);
+            URL.revokeObjectURL(url);
+        }
+
+        // =======================================================================
+        // SEGURANÇA E PRIVACIDADE MODULE
+        // =======================================================================
+        let segStage = 'intro';
+        let decisions = { cam: null, storage: null, contacts: null, gps: null, mic: null };
+        let selectedWifi = null;
+        let cMatches = { copyright: null, cc: null, pub: null };
+
+        function bootstrapSeguranca() {
+            const zone = document.getElementById('seg-game-container');
+            const mascotName = progress.selectedMascot === 'tico' ? 'Tico' : 'Teca';
+            
+            if (segStage === 'intro') {
+                talk(mascotName, 'Vem aprender deves regular segurança, combater invasões virtuais e salvaguardar dados!', 'happy');
+                zone.innerHTML = `
+                    <div class="bg-white rounded-3xl border-2 border-b-8 border-slate-100 p-6 shadow-xl text-center space-y-6">
+                        <div class="text-6xl animate-bounce">🛡️</div>
+                        <h3 class="text-2xl font-black text-slate-800 font-display">Simulação de Segurança Crítica</h3>
+                        <p class="text-sm font-semibold text-slate-500 max-w-md mx-auto leading-relaxed">
+                            Aprende a regular acessos de privacidade móveis, discriminar pontos de Wi-Fi seguros de armadilhas hacker e proteger artefactos intelectuais!
+                        </p>
+                        <button onclick="segStage='perms'; bootstrapSeguranca()" class="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-sm rounded-xl border-b-4 border-indigo-800 active:translate-y-0.5 shadow-md uppercase cursor-pointer">Iniciar Desafio (+100 XP)</button>
+                    </div>
+                `;
+            } else if (segStage === 'perms') {
+                talk(mascotName, 'Analisa criticamente os pedidos da aplicação "FiltroFixe Selfie". Concede apenas o essencial!', 'thinking');
+                zone.innerHTML = `
+                    <div class="bg-white rounded-3xl border-2 border-b-8 border-slate-100 p-6 shadow-xl space-y-4 text-left font-display">
+                        <h4 class="text-md font-black text-indigo-650 flex items-center gap-1">🛡️ Desafio 1/3: Análise de Privacidade Móvel</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed font-semibold mb-4">Múltiplos pedidos de privilégios estão no painel do telemóvel para a app de filtros selfie. Decide Sim (Permitir) ou Não (Negar):</p>
+                        
+                        <div class="space-y-3">
+                            ${[
+                                { id: 'cam', em: '📸', n: 'Acesso à Câmara Fotográfica', d: 'Permite capturar rostos e aplicar as caricaturas.', key: true },
+                                { id: 'storage', em: '💾', n: 'Gravar no Armazenamento de Ficheiros', d: 'Permite guardar as retratações prontas na tua galeria física.', key: true },
+                                { id: 'contacts', em: '👥', n: 'Aceder aos Contactos Pessoais', d: 'Envia os contactos e contas de redes dos pais para servidores de terceiros.', key: false },
+                                { id: 'gps', em: '📍', n: 'Localização de Satélite GPS exata', d: 'Rastreia a localização precisa a cada minuto.', key: false },
+                                { id: 'mic', em: '🎙️', n: 'Microfone Ativo em Segundo Plano', d: 'Ativa gravação secreta mesmo com ecrã escuro.', key: false }
+                            ].map(p => {
+                                const ans = decisions[p.id];
+                                return `
+                                    <div class="p-3 bg-slate-50 rounded-2xl border-2 border-b-4 border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                                        <div class="flex items-start gap-3">
+                                            <span class="text-2xl">${p.em}</span>
+                                            <div>
+                                                <h5 class="text-xs font-black text-slate-800">${p.n} <span class="text-[9px] uppercase font-black px-2 py-0.5 rounded-full ${p.key ? 'bg-indigo-100 text-indigo-700':'bg-rose-100 text-rose-700'}">${p.key?'Essencial':'Excessiva'}</span></h5>
+                                                <p class="text-[10px] text-slate-500 mt-0.5">${p.d}</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-2 shrink-0">
+                                            <button onclick="decidePerm('${p.id}', true)" class="px-3 py-1 bg-white border-2 border-slate-200 border-b-4 text-xs font-black rounded-lg ${ans===true? 'bg-emerald-500! border-emerald-700! text-white!':''}">Sim</button>
+                                            <button onclick="decidePerm('${p.id}', false)" class="px-3 py-1 bg-white border-2 border-slate-200 border-b-4 text-xs font-black rounded-lg ${ans===false? 'bg-rose-500! border-rose-700! text-white!':''}">Não</button>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                        <button onclick="checkPerms()" class="w-full mt-4 py-3 bg-indigo-600 hover:bg-indigo-750 text-white font-black text-xs uppercase border-b-4 border-indigo-850 rounded-xl">Validar Defesas</button>
+                    </div>
+                `;
+            } else if (segStage === 'wifi') {
+                talk(mascotName, 'Escolhe com prudência científica. Uma ligação insegura abre portas para espiões de cookies!', 'thinking');
+                zone.innerHTML = `
+                    <div class="bg-white rounded-3xl border-2 border-b-8 border-slate-100 p-6 shadow-xl space-y-4 text-left font-display">
+                        <h4 class="text-md font-black text-indigo-650 flex items-center gap-1">📶 Desafio 2/3: Avaliador de Sinais Wi-Fi</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed font-semibold mb-4">Chegas à praça pública para descarregar o guião escolar de TIC. Captas 3 sinais rádio. Escolha segura:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div onclick="selectWifiSignal('pub')" class="p-4 rounded-2xl border-2 border-b-6 cursor-pointer text-center relative flex flex-col justify-between min-h-[140px] ${selectedWifi==='pub'?'border-amber-400 bg-amber-50/50':'border-slate-200 bg-slate-50'}">
+                                <span class="text-3xl">📶</span>
+                                <h5 class="text-xs font-bold mt-2">Wifi_Gratis_Cafe</h5>
+                                <span class="text-[9px] text-amber-600 font-bold uppercase">Livre e Desprotegida</span>
+                            </div>
+                            <div onclick="selectWifiSignal('seg')" class="p-4 rounded-2xl border-2 border-b-6 cursor-pointer text-center relative flex flex-col justify-between min-h-[140px] ${selectedWifi==='seg'?'border-emerald-500 bg-emerald-50/50':'border-slate-200 bg-slate-50'}">
+                                <span class="text-3xl text-emerald-500">🔒</span>
+                                <h5 class="text-xs font-bold mt-2">EDU_WIFI_SEGURA</h5>
+                                <span class="text-[9px] text-emerald-600 font-bold uppercase">Cifrada WPA3 Escolar</span>
+                            </div>
+                            <div onclick="selectWifiSignal('perigo')" class="p-4 rounded-2xl border-2 border-b-6 cursor-pointer text-center relative flex flex-col justify-between min-h-[140px] ${selectedWifi==='perigo'?'border-rose-450 bg-rose-50/50':'border-slate-200 bg-slate-50'}">
+                                <span class="text-3xl">🎁</span>
+                                <h5 class="text-xs font-bold mt-2">PRÉMIOS_REDES_GRATUITAS</h5>
+                                <span class="text-[9px] text-rose-600 font-bold uppercase">Sem Registo / Fraude</span>
+                            </div>
+                        </div>
+                        <button onclick="checkWifi()" class="w-full mt-4 py-3 bg-indigo-600 hover:bg-indigo-750 text-white font-black text-xs uppercase border-b-4 border-indigo-850 rounded-xl">Ligar ao Ponto de Acesso</button>
+                    </div>
+                `;
+            } else if (segStage === 'copyright') {
+                talk(mascotName, 'Dominar o direito de autor permite partilhar, proteger e utilizar com integridade!', 'thinking');
+                zone.innerHTML = `
+                    <div class="bg-white rounded-3xl border-2 border-b-8 border-slate-100 p-6 shadow-xl space-y-4 text-left font-display">
+                        <h4 class="text-md font-black text-indigo-650 flex items-center gap-1">🎨 Desafio 3/3: Licenciamento de Suportes</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed font-semibold mb-4">Escolha a correspondência de licenciamento ético de obras digitais escolares:</p>
+                        
+                        <div class="space-y-4">
+                            ${[
+                                { id: 'copyright', t: 'Copyright (Todos os Direitos Reservados)', d: 'Proteção legal máxima e estrita. Nenhuma cópia ou edição sem permissão do criador.', correct: 'cr' },
+                                { id: 'cc', t: 'Creative Commons (CC BY-NC)', d: 'Livre de adaptar com créditos obrigatórios, sem vertentes de comércio aplicados.', correct: 'cc' },
+                                { id: 'pub', t: 'Domínio Público', d: 'Obra pertença universal legítima e irrestrita da humanidade.', correct: 'dp' }
+                            ].map(item => `
+                                <div class="p-4 rounded-2xl border-2 border-b-4 border-slate-200 bg-slate-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                                    <div class="md:w-1/2">
+                                        <h5 class="text-xs font-black text-slate-800">${item.t}</h5>
+                                        <p class="text-[10px] text-slate-400 mt-1">${item.d}</p>
+                                    </div>
+                                    <select onchange="matchLicense('${item.id}', this.value)" class="w-full md:w-56 text-xs font-bold bg-white p-2 border-2 border-slate-200 rounded-lg">
+                                        <option value="">Selecione o Significado...</option>
+                                        <option value="cc" ${cMatches[item.id]==='cc'?'selected':''}>Fins libres não-comerciais, com créditos</option>
+                                        <option value="cr" ${cMatches[item.id]==='cr'?'selected':''}>Proteção total rígida e propriedade restrita</option>
+                                        <option value="dp" ${cMatches[item.id]==='dp'?'selected':''}>Livre de direitos, utilidade irrestrita global</option>
+                                    </select>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button onclick="checkCopyright()" class="w-full mt-4 py-3 bg-indigo-600 hover:bg-indigo-750 text-white font-black text-xs uppercase border-b-4 border-indigo-850 rounded-xl">Validar Atribuições</button>
+                    </div>
+                `;
+            } else {
+                talk(mascotName, 'Parabéns Explorador! Protegeste a tua privacidade a 100%!', 'victory');
+                zone.innerHTML = `
+                    <div class="bg-white rounded-3xl border-2 border-b-8 border-slate-100 p-8 shadow-xl text-center space-y-6">
+                        <div class="text-6xl">🏆</div>
+                        <h3 class="text-2xl font-black text-emerald-600 font-display">Competência em Segurança Concluída!</h3>
+                        <p class="text-sm font-semibold text-slate-500 max-w-sm mx-auto">Aprendeste a configurar privacidade, evitar hotspots fraudulentos públicos e o valor de respeitar os direitos e licenciamentos éticos!</p>
+                        <button onclick="segStage='intro'; decisions={cam:null,storage:null,contacts:null,gps:null,mic:null}; selectedWifi=null; cMatches={copyright:null,cc:null,pub:null}; bootstrapSeguranca()" class="px-5 py-2.5 border-2 border-b-4 border-slate-300 rounded-xl text-xs font-black uppercase hover:bg-slate-50">Reset de Cenário</button>
+                    </div>
+                `;
+            }
+        }
+
+        function decidePerm(id, value) {
+            decisions[id] = value;
+            playSound('correct');
+            bootstrapSeguranca();
+        }
+
+        function checkPerms() {
+            const allFilled = Object.values(decisions).every(v => v !== null);
+            if (!allFilled) {
+                talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Por favor, responde a todas as permissões para análise!', 'warning');
+                return;
+            }
+            if (decisions.cam === true && decisions.storage === true && decisions.contacts === false && decisions.gps === false && decisions.mic === false) {
+                playSound('correct');
+                gainXp(30);
+                talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Correto! Os pedidos de câmara e espaço de gallery são aceitáveis, mas contactos e fones escondidos eram puro perigo comercial!', 'victory');
+                setTimeout(() => { segStage = 'wifi'; bootstrapSeguranca(); }, 2500);
+            } else {
+                playSound('wrong');
+                talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Hum, tens escolhas incorretas! Aplicativos de Selfie normais não precisam de ter os teus segredos, contactos ou canais GPS ativos.', 'warning');
+            }
+        }
+
+        function selectWifiSignal(sig) {
+            selectedWifi = sig;
+            playSound('correct');
+            bootstrapSeguranca();
+        }
+
+        function checkWifi() {
+            if (!selectedWifi) {
+                talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Conclua a verificação indicando em que rede pretende navegar!', 'warning');
+                return;
+            }
+            if (selectedWifi === 'seg') {
+                playSound('correct');
+                gainXp(30);
+                talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Rede escolar e cifrada! A tua navegação está segura contra interceptadores rádio maliciosos.', 'victory');
+                setTimeout(() => { segStage = 'copyright'; bootstrapSeguranca(); }, 2500);
+            } else {
+                playSound('wrong');
+                talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Opção perigosa! Hotspots abertos ou promessas de prémios grátis visam roubar pacotes de login. Altera a rota!', 'warning');
+            }
+        }
+
+        function matchLicense(id, val) {
+            cMatches[id] = val;
+            bootstrapSeguranca();
+        }
+
+        function checkCopyright() {
+            if (cMatches.copyright === 'cr' && cMatches.cc === 'cc' && cMatches.pub === 'dp') {
+                playSound('victory');
+                gainXp(40, 'defensor_dados');
+                completeQuest('seguranca_hero');
+                segStage = 'finished';
+                bootstrapSeguranca();
+            } else {
+                playSound('wrong');
+                talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Associações incorretas! Tenta novamente ajustar as licenças corretas de uso universal versus autorias privadas!', 'warning');
+            }
+        }
+
+        // =======================================================================
+        // PESQUISA E INVESTIGAÇÃO MODULE
+        // =======================================================================
+        let pStage = 'intro';
+        let pConstruct = [];
+        let curNewsIdx = 0;
+        let newsStatus = {};
+
+        const SEARCH_BLOCKS = ['"Inteligência Artificial"', 'AND', '"Medicina"', 'NOT', '"Robótica Militar"', 'OR', '"Receitas de Bolos"'];
+        
+        const FAKE_NEWS_ITEMS = [
+            {
+                id: 'n1',
+                t: '🚨 CHOCANTE: Robôs voadores substituem os professores já na próxima segunda-feira em Portugal!',
+                p: 'Artigo viralizado no Instagram afirma que 50.000 drones lógicos com inteligência artificial foram comprados. Sem citações governamentais, assinaturas, ou referências fidedignas.',
+                isFake: true,
+                exp: 'Falso! Texto de cunho conspirativo e alarmista, sem canais nem fontes governamentais.'
+            },
+            {
+                id: 'n2',
+                t: 'Estudo académico expõe as vantagens de linguagens interativas para o 9.º ano escolar.',
+                p: 'Trabalho universitário de Coimbra publica dados que indicam incrementos inteiros na facilidade de gramática graças a ambientes lúdicos informáticos.',
+                isFake: false,
+                exp: 'Fidedigno! Baseado em dados de investigadores duma faculdade pública idónea, em tom puramente neutro.'
+            },
+            {
+                id: 'n3',
+                t: '⚠️ ARQUEOLOGIA EXTRAORDINÁRIA: Detetado smartphone tátil de ouro na pirâmide de Ramsés II!',
+                p: 'Páginas desconhecidas partilham fotos dum ecrã dourado antigo descoberto num caixão real. História sem base histórica ou apoio científico.',
+                isFake: true,
+                exp: 'Falso por completo! História que desafia toda a física e factos de cronologia, criada para gerar visualizações baratas.'
+            }
+        ];
+
+        function bootstrapPesquisa() {
+            const zone = document.getElementById('pesq-game-container');
+            const mascotName = progress.selectedMascot === 'tico' ? 'Tico' : 'Teca';
+
+            if (pStage === 'intro') {
+                talk(mascotName, 'Vem dominar os segredos da Web! Aprende operadores booleanos lógicos e julga a veracidade de notícias populares!', 'happy');
+                zone.innerHTML = `
+                    <div class="bg-white rounded-3xl border-2 border-b-8 border-slate-100 p-6 shadow-xl text-center space-y-6">
+                        <div class="text-6xl animate-bounce">🔍</div>
+                        <h3 class="text-2xl font-black text-slate-800 font-display">Investigador Lógico de TIC</h3>
+                        <p class="text-sm font-semibold text-slate-500 max-w-sm mx-auto leading-relaxed">
+                            Molda fórmulas booleanas de busca refinadas e desenvolve uma conduta crítica em literacia mediática contra boatos de fake news!
+                        </p>
+                        <button onclick="pStage='operators'; bootstrapPesquisa()" class="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-750 text-white font-black text-sm rounded-xl border-b-4 border-indigo-850 uppercase shadow-md cursor-pointer">Começar Laboratório</button>
+                    </div>
+                `;
+            } else if (pStage === 'operators') {
+                talk(mascotName, 'Monta uma fórmula para pesquisar sobre "Inteligência Artificial" na área de "Medicina" mas que filtre fora "Robótica Militar"!', 'thinking');
+                zone.innerHTML = `
+                    <div class="bg-white rounded-3xl border-2 border-b-8 border-slate-100 p-6 shadow-xl text-left space-y-4 font-display">
+                        <h4 class="text-md font-black text-indigo-650 flex items-center gap-1">🔍 Desafio 1/2: Operadores de Pesquisa Lógica</h4>
+                        <p class="text-xs text-slate-500 font-semibold mb-2">Selecione e monte por ordem as caixas corretas de pesquisa lógica booleana:</p>
+                        
+                        <div class="flex flex-wrap gap-2 py-3 border-y border-slate-100">
+                            ${SEARCH_BLOCKS.map(sb => `
+                                <button onclick="addSearchB('${sb}')" class="px-3 py-1.5 bg-slate-50 border-2 border-slate-250 border-b-4 hover:bg-indigo-50 hover:text-indigo-700 text-xs font-black rounded-lg">${sb}</button>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="p-4 bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl min-h-[60px] flex flex-wrap gap-1.5 items-center">
+                            ${pConstruct.length === 0 ? '<span class="text-xs text-slate-400 italic font-semibold">Clica nos blocos de cima para construir a tua equação de pesquisa...</span>' : pConstruct.map((pc, idx) => `<span class="bg-indigo-600 text-white text-[10px] sm:text-xs px-2 py-1 rounded-md font-mono">${idx+1}. ${pc}</span>`).join('')}
+                        </div>
+
+                        <div class="flex gap-2 justify-end">
+                            <button onclick="pConstruct=[]; bootstrapPesquisa()" class="px-4 py-2 border-2 border-slate-200 border-b-4 text-xs font-bold rounded-lg uppercase bg-slate-50">Limpar</button>
+                            <button onclick="checkOperatorsFormula()" class="px-5 py-2 bg-indigo-600 text-white font-black text-xs uppercase border-b-4 border-indigo-805 rounded-lg">Executar Pesquisa</button>
+                        </div>
+                    </div>
+                `;
+            } else if (pStage === 'fakenews') {
+                const item = FAKE_NEWS_ITEMS[curNewsIdx];
+                talk(mascotName, 'Analisa a fonte de origem, o autor do artigo e o tom emocional antes de julgares a veracidade!', 'thinking');
+                zone.innerHTML = `
+                    <div class="bg-white rounded-3xl border-2 border-b-8 border-slate-100 p-6 shadow-xl text-left space-y-4 font-display">
+                        <h4 class="text-md font-black text-indigo-650 flex items-center gap-1">📰 Desafio 2/2: Detetor de Desinformação</h4>
+                        <p class="text-xs text-slate-500 font-semibold">Julgue a autenticidade e a credibilidade científica da publicação digital escolar:</p>
+                        
+                        <div class="p-4 bg-indigo-50/55 rounded-2xl border-2 border-indigo-100 space-y-2">
+                            <h5 class="text-sm font-black text-slate-850">${item.t}</h5>
+                            <p class="text-xs text-slate-650 leading-relaxed">${item.p}</p>
+                        </div>
+
+                        <div id="quiz-result-feedback" class="hidden p-3 bg-yield-50/100 rounded-xl text-xs font-bold border"></div>
+
+                        <div class="flex gap-3 pt-3 justify-end" id="evaluation-action-row">
+                            <button onclick="evalNews(true)" class="px-5 py-2.5 bg-rose-500 hover:bg-rose-600 text-white border-b-4 border-rose-700 text-xs font-black uppercase rounded-lg">Fake News! 🚨</button>
+                            <button onclick="evalNews(false)" class="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white border-b-4 border-emerald-700 text-xs font-black uppercase rounded-lg">Fidedigno ✔️</button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                talk(mascotName, 'Parabéns Explorador! Dominas a arte de pesquisar e decifrar com lucidez crítica!', 'victory');
+                zone.innerHTML = `
+                    <div class="bg-white rounded-3xl border-2 border-b-8 border-slate-100 p-8 shadow-xl text-center space-y-6">
+                        <div class="text-6xl">🏆</div>
+                        <h3 class="text-2xl font-black text-emerald-600 font-display">Literacia Digital Concluída!</h3>
+                        <p class="text-sm font-semibold text-slate-500 max-w-sm mx-auto">Consegues criar critérios minuciosos para buscas exatas e estás à prova de fake news fraudulentas de internet!</p>
+                        <button onclick="pStage='intro'; pConstruct=[]; curNewsIdx=0; bootstrapPesquisa()" class="px-5 py-2.5 border-2 border-b-4 border-slate-300 rounded-xl text-xs font-black uppercase hover:bg-slate-50">Reset de Cenário</button>
+                    </div>
+                `;
+            }
+        }
+
+        function addSearchB(b) {
+            if (pConstruct.length >= 6) return;
+            pConstruct.push(b);
+            bootstrapPesquisa();
+        }
+
+        function checkOperatorsFormula() {
+            const sequence = pConstruct.join(' ');
+            const correctTerms = pConstruct.includes('"Inteligência Artificial"') && pConstruct.includes('AND') && pConstruct.includes('"Medicina"') && pConstruct.includes('NOT') && pConstruct.includes('"Robótica Militar"');
+            
+            if (correctTerms) {
+                playSound('correct');
+                gainXp(30);
+                talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Excelente construtor! Utilizaste as ligações lógicas perfeitas para focar a medicina e descartar barulho militar.', 'happy');
+                setTimeout(() => { pStage = 'fakenews'; bootstrapPesquisa(); }, 2500);
+            } else {
+                playSound('wrong');
+                talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Hum, faltam elementos para a busca fidedigna ou os termos booleanos estão incorretos!', 'warning');
+            }
+        }
+
+        function evalNews(ans) {
+            const item = FAKE_NEWS_ITEMS[curNewsIdx];
+            const isCorrect = (ans === item.isFake);
+            
+            const row = document.getElementById('evaluation-action-row');
+            const feed = document.getElementById('quiz-result-feedback');
+            
+            feed.classList.remove('hidden');
+            if (isCorrect) {
+                playSound('correct');
+                feed.className = "p-3 bg-emerald-50 text-emerald-800 border-2 border-emerald-250 rounded-xl text-xs font-semibold leading-relaxed";
+                feed.innerHTML = `🎉 Absolutamente correto! ${item.exp}`;
+            } else {
+                playSound('wrong');
+                feed.className = "p-3 bg-rose-50 text-rose-800 border-2 border-rose-250 rounded-xl text-xs font-semibold leading-relaxed";
+                feed.innerHTML = `⚠️ Oops! ${item.exp}`;
+            }
+
+            row.innerHTML = `<button onclick="nextNCase()" class="px-6 py-2 bg-indigo-650 hover:bg-indigo-700 text-white font-black text-xs uppercase border-b-4 border-indigo-850 rounded-lg shadow">Seguinte 👉</button>`;
+        }
+
+        function nextNCase() {
+            if (curNewsIdx < FAKE_NEWS_ITEMS.length - 1) {
+                curNewsIdx++;
+                bootstrapPesquisa();
+            } else {
+                gainXp(40, 'mestre_investigador');
+                completeQuest('pesquisa_pro');
+                pStage = 'finished';
+                bootstrapPesquisa();
+            }
+        }
+
+        // =======================================================================
+        // CRIAR E INOVAR (IoT & PLANILHAS)
+        // =======================================================================
+        let cTab = 'sheet';
+        let b5Input = '';
+        let b6Input = '';
+        let sheetSolved = false;
+        
+        let robotX = 0, robotY = 0, robotDir = 'EAST';
+        let rCommands = [];
+        let robotRunning = false;
+
+        const C_OBSTACLES = [{x:1, y:1}, {x:3, y:2}, {x:1, y:3}];
+        const TARGET_CHIP = {x:3, y:3};
+
+        function bootstrapCriar() {
+            const zone = document.getElementById('criar-game-container');
+            const mascotName = progress.selectedMascot === 'tico' ? 'Tico' : 'Teca';
+
+            zone.innerHTML = `
+                <div class="bg-white p-4 rounded-3xl border-2 border-slate-100 flex items-center justify-between flex-wrap gap-4 mb-4 font-display">
+                    <div class="text-left">
+                        <h4 class="text-lg font-black text-slate-800">Criar e Inovar (IoT & Código)</h4>
+                        <p class="text-xs text-slate-400 font-semibold uppercase">Modela folhas calculistas ou programa inteligência IoT</p>
+                    </div>
+                    <div class="flex bg-slate-100 p-1 rounded-xl shrink-0 border border-slate-250">
+                        <button onclick="cTab='sheet'; bootstrapCriar()" class="px-4 py-1 rounded-lg text-xs font-black select-none ${cTab==='sheet'?'bg-indigo-600 text-white shadow':''}">Planilha 📊</button>
+                        <button onclick="cTab='robot'; bootstrapCriar()" class="px-4 py-1 rounded-lg text-xs font-black select-none ${cTab==='robot'?'bg-indigo-600 text-white shadow':''}">IoT e Robótica 🔋</button>
+                    </div>
+                </div>
+            `;
+
+            if (cTab === 'sheet') {
+                talk(mascotName, 'Usa equações rígidas de SOMA e MÉDIA em maiúsculas para poupares tempo de faturar consumos!', 'happy');
+                zone.innerHTML += `
+                    <div class="bg-white rounded-3xl border-2 border-b-8 border-slate-100 p-6 shadow-xl space-y-4 text-left font-display">
+                        <h4 class="text-md font-black text-indigo-150 border-b pb-3 block">📊 Simulador de Planilhas Matemáticas (B2:B4)</h4>
+                        <p class="text-xs text-slate-500 font-semibold leading-relaxed">No laboratório escolar registas o consumo elétrico dos computadores das turmas. Insere equações para B5 (SOMA) e B6 (MÉDIA):</p>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs font-extrabold border-2 border-slate-205 text-center bg-white rounded-xl overflow-hidden font-mono">
+                                <tr class="bg-slate-100 border-b-2">
+                                    <th class="p-2.5 border-r">Célula</th>
+                                    <th class="p-2.5 border-r">Aparelho Escolar</th>
+                                    <th class="p-2.5">Consumo (kWh)</th>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="p-2 bg-slate-50 border-r">B2</td>
+                                    <td class="p-2 border-r text-slate-500">Computador Turma A</td>
+                                    <td class="p-2 text-indigo-700">150</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="p-2 bg-slate-50 border-r">B3</td>
+                                    <td class="p-2 border-r text-slate-500">Computador Turma B</td>
+                                    <td class="p-2 text-indigo-700">120</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="p-2 bg-slate-50 border-r">B4</td>
+                                    <td class="p-2 border-r text-slate-500">Computador Turma C</td>
+                                    <td class="p-2 text-indigo-700">210</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="p-2 bg-yellow-50/50 border-r">B5 (SOMA)</td>
+                                    <td class="p-2 border-r text-slate-500 italic font-sans text-[10px]">Escreve: =SOMA(B2:B4)</td>
+                                    <td class="p-2 font-black ${sheetSolved?'text-emerald-700':'text-teal-700 font-sans'}" id="b5-cell-display">${sheetSolved?'480':'Por calcular'}</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 bg-yellow-50/50 border-r">B6 (MÉDIA)</td>
+                                    <td class="p-2 border-r text-slate-500 italic font-sans text-[10px]">Escreve: =MÉDIA(B2:B4)</td>
+                                    <td class="p-2 font-black ${sheetSolved?'text-emerald-700':'text-teal-705 font-sans'}" id="b6-cell-display">${sheetSolved?'160':'Por calcular'}</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                            <div class="space-y-1.5">
+                                <label class="text-[10px] font-black uppercase text-slate-400">Totalizadores de B5:</label>
+                                <input type="text" id="b5-input" placeholder="=SOMA(B2:B4)" class="w-full text-xs font-mono p-2.5 border-2 rounded-xl focus:border-indigo-400" ${sheetSolved?'disabled':''} value="${b5Input}">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-[10px] font-black uppercase text-slate-400">Totalizadores de B6:</label>
+                                <input type="text" id="b6-input" placeholder="=MÉDIA(B2:B4)" class="w-full text-xs font-mono p-2.5 border-2 rounded-xl focus:border-indigo-400" ${sheetSolved?'disabled':''} value="${b6Input}">
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2 justify-end pt-3">
+                            <button onclick="resetCSheet()" class="px-4 py-2 border-2 border-b-4 border-slate-200 bg-slate-50 font-bold rounded-xl text-xs uppercase">Reiniciar</button>
+                            <button onclick="checkCSheet()" class="px-5 py-3.5 bg-indigo-600 hover:bg-indigo-750 text-white font-black text-xs border-b-4 border-indigo-850 rounded-xl uppercase shrink-0" ${sheetSolved?'disabled':''}>Validar Tabela</button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                talk(mascotName, 'Encarrilha comandos lógicos sequenciais na rede rádio do robô até chegares ao sensor IoT na casa (3,3)! Ativa o sensor no fim!', 'happy');
+                zone.innerHTML += `
+                    <div class="bg-white rounded-3xl border-2 border-b-8 border-slate-100 p-6 shadow-xl space-y-4 text-left font-display">
+                        <div class="border-b pb-2 flex justify-between items-center mb-2">
+                            <h4 class="text-xs font-black text-indigo-700 uppercase tracking-widest leading-none">🔋 Programação Algorítmica IoT</h4>
+                            <span class="text-xs font-bold text-slate-400">Coord (3,3) - Torre Sensor</span>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <!-- Left: Grid layout of Map -->
+                            <div class="w-full md:w-1/2 flex justify-center">
+                                <div class="grid grid-cols-5 gap-2 p-3 bg-slate-100 rounded-3xl border-2 border-slate-200 shadow-inner w-full max-w-[280px]">
+                                    ${Array.from({length: 5}).map((_, r) => {
+                                        return Array.from({length: 5}).map((_, c) => {
+                                            const isBot = robotY === r && robotX === c;
+                                            const isObs = C_OBSTACLES.some(o => o.x === c && o.y === r);
+                                            const isChp = TARGET_CHIP.x === c && TARGET_CHIP.y === r;
+                                            
+                                            let cellBg = "bg-white text-slate-350 border-slate-150";
+                                            if (isBot) cellBg = "bg-indigo-600 text-white border-indigo-805 scale-102 font-black shadow";
+                                            else if (isObs) cellBg = "bg-rose-100 text-rose-500 border-rose-250 font-black";
+                                            else if (isChp) cellBg = "bg-amber-100 text-amber-600 border-amber-250";
+
+                                            let sym = "";
+                                            if (isBot) {
+                                                sym = robotDir === 'EAST' ? '➡️🤖' : robotDir === 'SOUTH' ? '⬇️🤖' : robotDir === 'WEST' ? '⬅️🤖' : '⬆️🤖';
+                                            } else if (isObs) {
+                                                sym = "⚠️";
+                                            } else if (isChp) {
+                                                sym = "📡";
+                                            } else {
+                                                sym = `${c},${r}`;
+                                            }
+
+                                            return `
+                                                <div class="aspect-square flex items-center justify-center border rounded-xl text-[9px] font-mono select-none ${cellBg}">
+                                                    ${sym}
+                                                </div>
+                                            `;
+                                        }).join('');
+                                    }).join('')}
+                                </div>
+                            </div>
+
+                            <!-- Right Command Queue stack and action buttons -->
+                            <div class="w-full md:w-1/2 space-y-4">
+                                <div class="space-y-1.5">
+                                    <h5 class="text-[10px] font-black text-slate-400 uppercase">Ações do Micro-robô (+):</h5>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <button onclick="addRCmd('FORWARD')" class="p-2.5 bg-slate-50 border-2 border-b-4 border-slate-205 text-xs font-black rounded-xl hover:bg-slate-100 uppercase" ${robotRunning?'disabled':''}>Avançar</button>
+                                        <button onclick="addRCmd('LEFT')" class="p-2.5 bg-slate-50 border-2 border-b-4 border-slate-205 text-xs font-black rounded-xl hover:bg-slate-100 uppercase" ${robotRunning?'disabled':''}>Rodar Esq ↺</button>
+                                        <button onclick="addRCmd('RIGHT')" class="p-2.5 bg-slate-50 border-2 border-b-4 border-slate-205 text-xs font-black rounded-xl hover:bg-slate-100 uppercase" ${robotRunning?'disabled':''}>Rodar Dir ↻</button>
+                                        <button onclick="addRCmd('SENSOR')" class="p-2.5 bg-amber-50 border-2 border-b-4 border-amber-205 text-xs font-black text-amber-900 rounded-xl hover:bg-amber-100 uppercase animate-pulse-slow" ${robotRunning?'disabled':''}>Sensor 📡</button>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-1.5">
+                                    <h5 class="text-[10px] font-black text-slate-400 uppercase">Algoritmo Lógico de Execução:</h5>
+                                    <div id="algo-stack-display" class="p-3 bg-slate-50 rounded-2xl border-2 border-slate-205 min-h-[50px] flex flex-wrap gap-1.5 text-xs">
+                                        ${rCommands.length === 0 ? '<span class="text-[10px] text-slate-450 italic font-semibold py-1">Empilha blocos robotizados para acionar motores...</span>' : rCommands.map((rc, idx) => `<span id="cmd-stack-${idx}" class="px-2 py-1 bg-indigo-600 text-white font-mono text-[9px] rounded border-b-2 border-indigo-850">${idx+1}. ${rc==='FORWARD'?'AVANÇAR':rc==='LEFT'?'ESQ ↺':rc==='RIGHT'?'DIR ↻':'SENSOR 📡'}</span>`).join('')}
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-2 justify-end">
+                                    <button onclick="clearRCmds()" class="p-2.5 border-2 border-slate-200 border-b-4 bg-slate-50 rounded-xl" ${robotRunning?'disabled':''} title="Zerar Algoritmo"><i class="text-slate-500" data-lucide="rotate-ccw"></i></button>
+                                    <button onclick="runRCmds()" class="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 border-b-4 border-emerald-700 text-white font-black text-xs uppercase animate-pulse shadow-sm rounded-xl" ${robotRunning?'disabled':''}>Carregar Programa !</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            lucide.createIcons();
+        }
+
+        function checkCSheet() {
+            const f5 = document.getElementById('b5-input').value.toUpperCase().replace(/\s/g, '');
+            const f6 = document.getElementById('b6-input').value.toUpperCase().replace(/\s/g, '');
+            
+            b5Input = f5;
+            b6Input = f6;
+
+            const isf5Correct = f5 === '=SOMA(B2:B4)' || f5 === '=SOMA(B2;B3;B4)' || f5 === '=SUM(B2:B4)';
+            const isf6Correct = f6 === '=MÉDIA(B2:B4)' || f6 === '=MEDIA(B2:B4)' || f6 === '=AVERAGE(B2:B4)';
+
+            if (isf5Correct && isf6Correct) {
+                playSound('correct');
+                sheetSolved = true;
+                gainXp(40);
+                talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Fantástico! Programaste as folhas lógicas na excelência! Continua para o módulo de Robôs!', 'victory');
+                bootstrapCriar();
+            } else {
+                playSound('wrong');
+                talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Hum! Certifica-te de que estrebuchas os limites em português: =SOMA(B2:B4) e =MÉDIA(B2:B4) de forma rigorosa!', 'warning');
+            }
+        }
+
+        function resetCSheet() {
+            b5Input = '';
+            b6Input = '';
+            sheetSolved = false;
+            playSound('correct');
+            bootstrapCriar();
+        }
+
+        function addRCmd(cmd) {
+            if (rCommands.length >= 10) return;
+            rCommands.push(cmd);
+            playSound('correct');
+            bootstrapCriar();
+        }
+
+        function clearRCmds() {
+            rCommands = [];
+            robotX = 0;
+            robotY = 0;
+            robotDir = 'EAST';
+            robotRunning = false;
+            playSound('correct');
+            bootstrapCriar();
+            talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Instruções apagadas! Molda novamente as caixas lógicas de rede!', 'happy');
+        }
+
+        async function runRCmds() {
+            if (rCommands.length === 0) {
+                talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Por favor, constrói uma fila de comandos de movimento para arrancar!', 'warning');
+                return;
+            }
+            robotRunning = true;
+            robotX = 0;
+            robotY = 0;
+            robotDir = 'EAST';
+            bootstrapCriar();
+
+            const dirs = ['NORTH', 'EAST', 'SOUTH', 'WEST'];
+
+            for (let i = 0; i < rCommands.length; i++) {
+                const cmd = rCommands[i];
+                
+                // Highlight active step
+                const el = document.getElementById(`cmd-stack-${i}`);
+                if (el) el.classList.add('bg-orange-500!');
+
+                await new Promise(resolve => setTimeout(resolve, 750));
+
+                if (cmd === 'FORWARD') {
+                    let nextX = robotX;
+                    let nextY = robotY;
+
+                    if (robotDir === 'NORTH') nextY -= 1;
+                    else if (robotDir === 'EAST') nextX += 1;
+                    else if (robotDir === 'SOUTH') nextY += 1;
+                    else if (robotDir === 'WEST') nextX -= 1;
+
+                    const hitObs = C_OBSTACLES.some(o => o.x === nextX && o.y === nextY);
+                    const out = nextX < 0 || nextX >= 5 || nextY < 0 || nextY >= 5;
+
+                    if (hitObs || out) {
+                        playSound('wrong');
+                        talk(progress.selectedMascot==='tico'?'Tico':'Teca', '🚨 COLISÃO! O teu robo esbarrou contra barreiras físicas. Redesenha a tua sequência algorítmica!', 'warning');
+                        robotRunning = false;
+                        bootstrapCriar();
+                        return;
+                    }
+                    robotX = nextX;
+                    robotY = nextY;
+                } else if (cmd === 'LEFT') {
+                    let idx = dirs.indexOf(robotDir);
+                    robotDir = dirs[(idx - 1 + 4) % 4];
+                } else if (cmd === 'RIGHT') {
+                    let idx = dirs.indexOf(robotDir);
+                    robotDir = dirs[(idx + 1) % 4];
+                } else if (cmd === 'SENSOR') {
+                    if (robotX === TARGET_CHIP.x && robotY === TARGET_CHIP.y) {
+                        playSound('victory');
+                        gainXp(60, 'mestre_inovacao');
+                        completeQuest('criar_inovar_champion');
+                        talk(progress.selectedMascot==='tico'?'Tico':'Teca', '📡 SUCESSO EXTREMO! Acionaste a torre IoT e captaste dados para o servidor da biblioteca escolar!', 'victory');
+                        robotRunning = false;
+                        bootstrapCriar();
+                        return;
+                    } else {
+                        playSound('wrong');
+                        talk(progress.selectedMascot==='tico'?'Tico':'Teca', '📡 Tentaste lançar o sensor, mas não te encontras nas coordenadas com fio de silício (3,3)!', 'warning');
+                        robotRunning = false;
+                        bootstrapCriar();
+                        return;
+                    }
+                }
+                bootstrapCriar();
+            }
+
+            robotRunning = false;
+            if (robotX === TARGET_CHIP.x && robotY === TARGET_CHIP.y) {
+                talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Chegaste ao chip eletrónico (3,3), mas esqueceste de engrenar o botão SENSOR no final da fila de códigos!', 'thinking');
+            } else {
+                talk(progress.selectedMascot==='tico'?'Tico':'Teca', 'Simulação concluída! O robô não sofreu colisões mas parou longe do sensor em (3,3).', 'thinking');
+            }
+            bootstrapCriar();
+        }
+
+        // =======================================================================
+        // DUELO MULTIPLAYER LOCAL
+        // =======================================================================
+        let dState = 'lobby';
+        let p1Name = 'Explorador A';
+        let p2Name = 'Explorador B';
+        let p1Icon = '🤖';
+        let p2Icon = '👩‍🚀';
+        let p1Points = 0;
+        let p2Points = 0;
+        
+        let curDuelQIdx = 0;
+        let duelTurn = 1; // 1 or 2
+        let selDuelOpt = null;
+        let showDuelFeed = false;
+
+        const DUEL_QUESTIONS = [
+            {
+                q: 'Se recebes uma mensagem suspeita de alguém desconhecido no chat escolar a prometer moedas grátis de jogo o que deves fazer?',
+                opts: ['Dar os contactos para faturar rapidamente.', 'Cerrar e avisar o encarregado de educação ou professor.', 'Partilhar o perigo com os contactos dos amigos.'],
+                correct: 1, p: 20
+            },
+            {
+                q: 'Para procurar livros na rede escolar que incluam "Redes" e "Filtro" conjuntamente, que ligação deves usar?',
+                opts: ['Ligação OR', 'Ligação NOT', 'Ligação AND'],
+                correct: 2, p: 20
+            },
+            {
+                q: 'No Excel ou Sheets, que símbolo define de forma legítima o começo duma instrução de fórmula?',
+                opts: ['Sinal de Igual ( = )', 'O texto "Formula"', 'Sinal de Somatório ( + )'],
+                correct: 0, p: 20
+            },
+            {
+                q: 'O que foca por defeito a tecnologia emergente da Internet das Coisas (IoT)?',
+                opts: ['Ligar dados e objetos ao canal Internet por sensores e rádio.', 'Pesquisadores de dinossauros virtuais.', 'Escrever e-mails de publicidade massivos.'],
+                correct: 0, p: 20
+            },
+            {
+                q: 'Que tipo de licença de autor te confere o direito a partilhar e adaptar trabalhos sem usufruir de vias comerciais?',
+                opts: ['Licença de Copyright strito', 'Creative Commons BY-NC com créditos de criador', 'Omissão de canais autorais legítimos'],
+                correct: 1, p: 20
+            }
+        ];
+
+        function bootstrapDuelo() {
+            const zone = document.getElementById('duel-game-container');
+            const mascotName = progress.selectedMascot === 'tico' ? 'Tico' : 'Teca';
+
+            if (dState === 'lobby') {
+                talk(mascotName, 'Boas-vindas à arena lúdica escolar! Desafia o teu colega de carteira para um confronto de saberes curriculares de 5 rondas!', 'happy');
+                zone.innerHTML = `
+                    <div class="bg-white rounded-3xl border-2 border-b-8 border-slate-100 p-8 shadow-xl max-w-2xl mx-auto space-y-6 text-center font-display animate-fade-in">
+                        <div class="text-6xl animate-pulse">🥊</div>
+                        <h3 class="text-2xl font-black text-slate-800">Criação da Arena de Duelo</h3>
+                        <p class="text-xs text-slate-450 leading-relaxed font-semibold max-w-sm mx-auto">Configurem os vossos nicknames e ícones e sentem-se lado a lado para o combate intelectual!</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                            <div class="p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100 space-y-2">
+                                <label class="text-[10px] font-black uppercase text-indigo-700">Nickname Jogador A</label>
+                                <input type="text" id="p1-name-inp" value="${p1Name}" onchange="p1Name=this.value" class="w-full text-xs font-bold p-2.5 bg-white border-2 border-indigo-200 rounded-lg">
+                                <div class="flex justify-around pt-2">
+                                    ${['🤖', '🦖', '😼', '🐼'].map(e => `<button onclick="setP1Sym('${e}')" class="text-xl p-1 rounded-md border ${p1Icon===e?'border-indigo-600 bg-white':''}">${e}</button>`).join('')}
+                                </div>
+                            </div>
+                            <div class="p-4 bg-rose-50/50 rounded-2xl border border-rose-100 space-y-2">
+                                <label class="text-[10px] font-black uppercase text-rose-700">Nickname Jogador B</label>
+                                <input type="text" id="p2-name-inp" value="${p2Name}" onchange="p2Name=this.value" class="w-full text-xs font-bold p-2.5 bg-white border-2 border-rose-200 rounded-lg">
+                                <div class="flex justify-around pt-2">
+                                    ${['👩‍🚀', '🦄', '🦊', '🐨'].map(e => `<button onclick="setP2Sym('${e}')" class="text-xl p-1 rounded-md border ${p2Icon===e?'border-rose-600 bg-white':''}">${e}</button>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="startDuelFight()" class="w-full max-w-sm py-3.5 bg-gradient-to-r from-pink-500 to-orange-500 text-white font-black text-sm uppercase rounded-xl shadow-md border-b-4 border-orange-800 cursor-pointer hover:scale-102 transition-transform">Iniciar Torneio de TIC!</button>
+                    </div>
+                `;
+            } else if (dState === 'playing') {
+                const q = DUEL_QUESTIONS[curDuelQIdx];
+                const curName = duelTurn === 1 ? p1Name : p2Name;
+                const curSym = duelTurn === 1 ? p1Icon : p2Icon;
+                talk(mascotName, `É a tua vez de responder, ${curName}! Mantém a compostura curricular de informática!`, 'thinking');
+
+                zone.innerHTML = `
+                    <div class="bg-white rounded-3xl border-2 border-b-8 border-slate-100 p-6 shadow-xl space-y-6 text-left font-display">
+                        <!-- Score panel -->
+                        <div class="grid grid-cols-3 items-center py-3 bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 text-center">
+                            <div>
+                                <span class="text-2xl block">${p1Icon}</span>
+                                <span class="text-[10px] font-black block">${p1Name}</span>
+                                <span class="text-xs font-black text-indigo-600 block">${p1Points} Pts</span>
+                            </div>
+                            <div class="text-center">
+                                <span class="text-[9px] font-black bg-gradient-to-r from-pink-500 to-orange-500 text-white px-2 py-0.5 rounded-full uppercase">Ronda ${curDuelQIdx+1}/5</span>
+                                <span class="text-[10px] text-slate-400 block font-semibold mt-1">Confronte Lúdico</span>
+                            </div>
+                            <div>
+                                <span class="text-2xl block">${p2Icon}</span>
+                                <span class="text-[10px] font-black block">${p2Name}</span>
+                                <span class="text-xs font-black text-rose-600 block">${p2Points} Pts</span>
+                            </div>
+                        </div>
+
+                        <!-- Turn Indicator card -->
+                        <div class="p-3 bg-indigo-50/50 rounded-2xl border-2 border-dashed border-indigo-200 flex items-center gap-3">
+                            <span class="text-2xl animate-bounce">${curSym}</span>
+                            <div>
+                                <h4 class="text-xs font-black text-indigo-900">Na vez de Decidir: <span class="text-pink-600 underline">${curName}</span></h4>
+                            </div>
+                        </div>
+
+                        <!-- Question area -->
+                        <div class="space-y-3">
+                            <h4 class="text-sm font-black text-slate-800 leading-relaxed">${curDuelQIdx+1}. ${q.q}</h4>
+                            <div class="space-y-2">
+                                ${q.opts.map((opt, idx) => {
+                                    let style = "border-slate-200 bg-white hover:bg-slate-50";
+                                    if (selDuelOpt !== null) {
+                                        if (idx === q.correct) style = "bg-emerald-500 text-white border-emerald-700 font-extrabold";
+                                        else if (idx === selDuelOpt) style = "bg-rose-500 text-white border-rose-700 font-extrabold";
+                                        else style = "opacity-40 border-slate-100 bg-white";
+                                    }
+                                    return `
+                                        <button onclick="submitDuelAns(${idx})" class="w-full text-left p-3 rounded-xl border-2 text-xs font-bold transition-all ${style}" ${selDuelOpt!==null?'disabled':''}>${opt}</button>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Feedback section inside screen -->
+                        ${showDuelFeed ? `
+                            <div class="p-3.5 bg-yellow-50 rounded-xl border-2 border-yellow-205 flex flex-col sm:flex-row items-center justify-between gap-3 font-semibold text-xs text-yellow-900">
+                                <span>${selDuelOpt === q.correct ? '✔️ Resposta perfeita! Adicionados +20 pontos de saber.' : '❌ Ops! Resposta errante, mas conta como experiência!'}</span>
+                                <button onclick="nextDuelTurn()" class="px-5 py-2.5 bg-indigo-650 hover:bg-indigo-700 text-white border-b-4 border-indigo-850 rounded-lg text-xs font-black uppercase shrink-0">Avançar 👉</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            } else {
+                talk(mascotName, 'Torneio encerrado na perfeição! Desfrutem da literacia em cooperação amigável!', 'victory');
+                const winner = p1Points > p2Points ? p1Name : p2Points > p1Points ? p2Name : 'Ambos (Empate!)';
+                zone.innerHTML = `
+                    <div class="bg-white rounded-3xl border-2 border-b-8 border-slate-100 p-8 shadow-xl max-w-md mx-auto text-center space-y-6 font-display">
+                        <div class="text-7xl animate-bounce">👑</div>
+                        <div>
+                            <h3 class="text-2xl font-black text-slate-800">Confronte Concluído!</h3>
+                            <p class="text-[10px] text-slate-400 font-extrabold uppercase mt-1">Eis os pontos obtidos:</p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                            <div>
+                                <span class="text-3xl block">${p1Icon}</span>
+                                <span class="text-xs font-extrabold block text-slate-650 leading-tight">${p1Name}</span>
+                                <span class="text-sm font-black text-indigo-700 block mt-1">${p1Points} Pts</span>
+                            </div>
+                            <div>
+                                <span class="text-3xl block">${p2Icon}</span>
+                                <span class="text-xs font-extrabold block text-slate-650 leading-tight">${p2Name}</span>
+                                <span class="text-sm font-black text-rose-700 block mt-1">${p2Points} Pts</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-amber-50 rounded-xl border border-amber-205 text-xs text-amber-900 font-bold leading-normal">
+                            🎉 O Vencedor é: <span class="underline text-sm font-black block mt-1">${winner}</span>
+                        </div>
+
+                        <div class="flex gap-2 justify-center">
+                            <button onclick="dState='lobby'; bootstrapDuelo()" class="px-4 py-2 border border-slate-200 font-bold text-xs rounded-xl">Início</button>
+                            <button onclick="startDuelFight()" class="px-5 py-2.5 bg-indigo-600 text-white border-b-4 border-indigo-805 font-black text-xs uppercase rounded-xl shadow">Revanche!</button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function setP1Sym(sym) { p1Icon = sym; playSound('correct'); bootstrapDuelo(); }
+        function setP2Sym(sym) { p2Icon = sym; playSound('correct'); bootstrapDuelo(); }
+
+        function startDuelFight() {
+            p1Points = 0;
+            p2Points = 0;
+            curDuelQIdx = 0;
+            duelTurn = 1;
+            selDuelOpt = null;
+            showDuelFeed = false;
+            dState = 'playing';
+            playSound('correct');
+            bootstrapDuelo();
+        }
+
+        function submitDuelAns(opt) {
+            selDuelOpt = opt;
+            const q = DUEL_QUESTIONS[curDuelQIdx];
+            
+            if (opt === q.correct) {
+                playSound('correct');
+                if (duelTurn === 1) p1Points += q.p;
+                else p2Points += q.p;
+            } else {
+                playSound('wrong');
+            }
+
+            showDuelFeed = true;
+            bootstrapDuelo();
+        }
+
+        function nextDuelTurn() {
+            selDuelOpt = null;
+            showDuelFeed = false;
+
+            if (duelTurn === 1) {
+                duelTurn = 2;
+                dState = 'playing';
+                bootstrapDuelo();
+            } else {
+                // Completed the round for both players
+                if (curDuelQIdx < DUEL_QUESTIONS.length - 1) {
+                    curDuelQIdx++;
+                    duelTurn = 1;
+                    dState = 'playing';
+                    bootstrapDuelo();
+                } else {
+                    gainXp(40, 'gladiador_tic');
+                    completeQuest('multiplayer_badge');
+                    dState = 'finished';
+                    bootstrapDuelo();
+                }
+            }
+        }
+
+        // Run application on start
+        loadOrCreateProgress();
+
+    </script>
+</body>
+</html>

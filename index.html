@@ -1169,8 +1169,8 @@
                         <p class="text-xs text-slate-500 font-semibold mb-2">Selecione e monte por ordem as caixas corretas de pesquisa lógica booleana:</p>
                         
                         <div class="flex flex-wrap gap-2 py-3 border-y border-slate-100">
-                            ${SEARCH_BLOCKS.map(sb => `
-                                <button onclick="addSearchB('${sb}')" class="px-3 py-1.5 bg-slate-50 border-2 border-slate-250 border-b-4 hover:bg-indigo-50 hover:text-indigo-700 text-xs font-black rounded-lg">${sb}</button>
+                            ${SEARCH_BLOCKS.map((sb, idx) => `
+                                <button onclick="addSearchB(${idx})" class="px-3 py-1.5 bg-slate-50 border-2 border-slate-250 border-b-4 hover:bg-indigo-50 hover:text-indigo-700 text-xs font-black rounded-lg">${sb}</button>
                             `).join('')}
                         </div>
                         
@@ -1218,9 +1218,9 @@
             }
         }
 
-        function addSearchB(b) {
+        function addSearchB(idx) {
             if (pConstruct.length >= 6) return;
-            pConstruct.push(b);
+            pConstruct.push(SEARCH_BLOCKS[idx]);
             bootstrapPesquisa();
         }
 
@@ -1505,7 +1505,7 @@
                 
                 // Highlight active step
                 const el = document.getElementById(`cmd-stack-${i}`);
-                if (el) el.classList.add('bg-orange-500!');
+                if (el) el.style.backgroundColor = '#f97316';
 
                 await new Promise(resolve => setTimeout(resolve, 750));
 

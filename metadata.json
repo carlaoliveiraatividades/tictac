@@ -1,0 +1,6 @@
+{
+  "name": "TIC Kids: Aprendizagem de TIC",
+  "description": "Plataforma interativa para aprendizagem de Tecnologias da Informação e Comunicação (9.º Ano), com jogos, recompensas, painel de progresso e modo multiplayer.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

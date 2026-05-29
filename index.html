@@ -968,8 +968,8 @@
                                             </div>
                                         </div>
                                         <div class="flex gap-2 shrink-0">
-                                            <button onclick="decidePerm('${p.id}', true)" class="px-3 py-1 bg-white border-2 border-slate-200 border-b-4 text-xs font-black rounded-lg ${ans===true? 'bg-emerald-500! border-emerald-700! text-white!':''}">Sim</button>
-                                            <button onclick="decidePerm('${p.id}', false)" class="px-3 py-1 bg-white border-2 border-slate-200 border-b-4 text-xs font-black rounded-lg ${ans===false? 'bg-rose-500! border-rose-700! text-white!':''}">Não</button>
+                                            <button onclick="decidePerm('${p.id}', true)" class="px-3 py-1 bg-white border-2 border-slate-200 border-b-4 text-xs font-black rounded-lg ${ans===true? '!bg-emerald-500 !border-emerald-700 !text-white':''}">Sim</button>
+                                            <button onclick="decidePerm('${p.id}', false)" class="px-3 py-1 bg-white border-2 border-slate-200 border-b-4 text-xs font-black rounded-lg ${ans===false? '!bg-rose-500 !border-rose-700 !text-white':''}">Não</button>
                                         </div>
                                     </div>
                                 `;
@@ -996,7 +996,7 @@
                                 <h5 class="text-xs font-bold mt-2">EDU_WIFI_SEGURA</h5>
                                 <span class="text-[9px] text-emerald-600 font-bold uppercase">Cifrada WPA3 Escolar</span>
                             </div>
-                            <div onclick="selectWifiSignal('perigo')" class="p-4 rounded-2xl border-2 border-b-6 cursor-pointer text-center relative flex flex-col justify-between min-h-[140px] ${selectedWifi==='perigo'?'border-rose-450 bg-rose-50/50':'border-slate-200 bg-slate-50'}">
+                            <div onclick="selectWifiSignal('perigo')" class="p-4 rounded-2xl border-2 border-b-6 cursor-pointer text-center relative flex flex-col justify-between min-h-[140px] ${selectedWifi==='perigo'?'border-rose-500 bg-rose-50/50':'border-slate-200 bg-slate-50'}">
                                 <span class="text-3xl">🎁</span>
                                 <h5 class="text-xs font-bold mt-2">PRÉMIOS_REDES_GRATUITAS</h5>
                                 <span class="text-[9px] text-rose-600 font-bold uppercase">Sem Registo / Fraude</span>
